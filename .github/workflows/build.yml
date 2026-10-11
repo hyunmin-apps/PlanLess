@@ -1,0 +1,33 @@
+name: Build and verify macOS
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  macos:
+    strategy:
+      matrix:
+        include:
+          - runner: macos-15
+            arch: arm64
+          - runner: macos-15-intel
+            arch: x86_64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./build.sh --arch ${{ matrix.arch }}
+      - run: python3 tests/verify.py 'build/${{ matrix.arch }}/Study Glass.app' ${{ matrix.arch }}
+      - name: Launch app smoke test
+        shell: bash
+        run: |
+          'build/${{ matrix.arch }}/Study Glass.app/Contents/MacOS/StudyGlass' &
+          app_pid=$!
+          sleep 8
+          kill -0 "$app_pid"
+          kill "$app_pid"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: StudyGlass-${{ matrix.arch }}
+          path: build/${{ matrix.arch }}/Study Glass.app

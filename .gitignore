@@ -1,0 +1,12 @@
+.DS_Store
+build/
+dist/
+__pycache__/
+*.pyc
+*.log
+state.json
+study-state.json
+.env
+.env.*
+*.p12
+*.mobileprovision
