@@ -4,11 +4,11 @@
 
 그날 끝낼 분량을 확인하고 체크하는 미니멀 macOS 계획 앱입니다. **한 주의 일차별 목표를 펼쳐 보고, 날짜를 눌러 하루에 집중**합니다. 과목별 색상과 다크 모드, macOS 바탕화면 위젯을 제공합니다. 계정이나 외부 서버 없이 Mac에 저장합니다.
 
-[다운로드](https://github.com/kanghyunmin-bot/StudyGlass/releases) · [버그 제보](https://github.com/kanghyunmin-bot/StudyGlass/issues) · [MIT 라이선스](LICENSE)
+[다운로드](https://github.com/hyunmin-apps/StudyGlass/releases) · [버그 제보](https://github.com/hyunmin-apps/StudyGlass/issues) · [MIT 라이선스](LICENSE)
 
 ## 다운로드와 설치
 
-[Releases](https://github.com/kanghyunmin-bot/StudyGlass/releases)에서 `StudyGlass-0.1.0-macOS-universal.dmg`를 받으세요. **동일한 파일이 Apple Silicon과 Intel Mac을 지원합니다. macOS 14 Sonoma 이상이 필요합니다.**
+[Releases](https://github.com/hyunmin-apps/StudyGlass/releases)에서 `StudyGlass-0.1.0-macOS-universal.dmg`를 받으세요. **동일한 파일이 Apple Silicon과 Intel Mac을 지원합니다. macOS 14 Sonoma 이상이 필요합니다.**
 
 1. DMG를 열고 `Study Glass.app`을 `Applications`로 복사합니다.
 2. 앱을 한 번 실행합니다.
@@ -37,7 +37,7 @@ Developer ID 서명·Apple 공증 전 **시험 릴리스**입니다. macOS가 �
 | 최소 OS | macOS 14.0. 최소 버전 실기기 검증은 아직 하지 않음 |
 | 서명 | 로컬 ad-hoc 서명. Developer ID·공증 없음 |
 
-[빌드와 실행 CI](https://github.com/kanghyunmin-bot/StudyGlass/actions/workflows/build.yml) · [검증 기록](docs/verification.md)
+[빌드와 실행 CI](https://github.com/hyunmin-apps/StudyGlass/actions/workflows/build.yml) · [검증 기록](docs/verification.md)
 
 위젯은 오늘 또는 가장 가까운 예정일을 표시합니다. 주간 위젯은 해당 날짜가 속한 월~일을 표시하며, 작은 크기에서는 내용이 요약됩니다. 앱 변경 사항은 위젯 갱신 시 반영되므로 즉시 표시를 보장하지 않습니다. 위젯 자체에서 체크하거나 주를 넘기는 기능은 아직 없습니다.
 
