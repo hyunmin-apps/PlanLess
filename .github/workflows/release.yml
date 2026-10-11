@@ -1,0 +1,23 @@
+name: Publish macOS prerelease
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    uses: ./.github/workflows/build.yml
+  package:
+    needs: verify
+    runs-on: macos-15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./build.sh
+      - run: python3 scripts/package.py
+      - name: Publish version from VERSION
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="$(cat VERSION)"
+          gh release create "v$version" dist/*.dmg dist/*.zip dist/SHA256SUMS.txt dist/release-manifest.json --target "$GITHUB_SHA" --title "Study Glass $version — macOS Universal" --notes-file docs/release-notes.md --prerelease
