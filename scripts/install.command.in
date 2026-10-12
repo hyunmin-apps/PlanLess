@@ -20,6 +20,32 @@ unregister_app() {
   "$LSREGISTER" -u "$1" || true
   /usr/bin/pluginkit -r "$1/Contents/PlugIns/StudyGlassWidget.appex" 2>/dev/null || true
 }
+is_study_process() {
+  process_path=$(/bin/ps -ww -p "$1" -o comm= 2>/dev/null) || return 1
+  case "$process_path" in */Contents/MacOS/StudyGlass) ;; *) return 1 ;; esac
+  process_bundle="${process_path%/Contents/MacOS/StudyGlass}"
+  [ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$process_bundle/Contents/Info.plist" 2>/dev/null)" = local.studyglass.desktop ]
+}
+stop_study_glass() {
+  for app_pid in $(/usr/bin/pgrep -u "$(/usr/bin/id -u)" -x StudyGlass || true); do
+    is_study_process "$app_pid" || continue
+    printf '실행 중인 Study Glass를 종료합니다…\n'
+    /bin/kill -TERM "$app_pid" 2>/dev/null || true
+    for attempt in 1 2 3; do
+      is_study_process "$app_pid" || break
+      /bin/sleep 1
+    done
+    if is_study_process "$app_pid"; then
+      printf '응답하지 않아 Study Glass를 강제 종료합니다…\n'
+      /bin/kill -KILL "$app_pid" 2>/dev/null || true
+      /bin/sleep 1
+    fi
+    if is_study_process "$app_pid"; then
+      printf 'Study Glass를 종료하지 못해 업데이트를 중단했습니다.\n' >&2
+      exit 1
+    fi
+  done
+}
 cleanup() {
   result=$?
   if [ "$result" -ne 0 ] && [ "$INSTALLED" -eq 0 ] && [ -n "$BACKUP" ] && [ ! -e "$DEST" ]; then
@@ -36,16 +62,13 @@ printf '\nStudy Glass %s 설치\n\n' "$VERSION"
 printf 'Apple 공증 전 시험판입니다.\n공식 배포 ZIP의 SHA-256 및 앱 서명 구조를 검사한 뒤 설치합니다.\n'
 printf '설치 위치: %s\n' "$DEST"
 printf 'Study Glass 앱에만 다운로드 격리 속성을 제거합니다.\n이 조치는 공증을 대신하지 않으며, Mac 전체 보안 설정은 바꾸지 않습니다.\n'
-printf '이전 앱은 ZIP으로 백업하고 교체합니다. 직접 추가한 공부 기록은 유지합니다. 실행 중인 앱은 먼저 종료하세요.\n\n'
+printf '이전 앱은 ZIP으로 백업하고 교체합니다. 직접 추가한 공부 기록은 유지합니다. 실행 중인 Study Glass는 자동 종료하며, 응답하지 않으면 강제 종료합니다. 저장하지 않은 편집 내용은 사라질 수 있습니다.\n\n'
 printf '이 변경에 동의하고 설치할까요? [y/N] '
 IFS= read -r answer || exit 0
 case "$answer" in y|Y) ;; *) printf '취소했습니다.\n'; exit 0 ;; esac
 [ "$(/usr/bin/uname -s)" = Darwin ] || { printf 'macOS 전용입니다.\n' >&2; exit 1; }
 os_version=$(/usr/bin/sw_vers -productVersion)
 [ "${os_version%%.*}" -ge 14 ] || { printf 'macOS 14 이상이 필요합니다.\n' >&2; exit 1; }
-if /usr/bin/pgrep -x StudyGlass >/dev/null; then
-  printf 'Study Glass를 종료한 뒤 다시 실행하세요.\n' >&2; exit 1
-fi
 WORK=$(/usr/bin/mktemp -d "${TMPDIR:-/tmp}/studyglass-download.XXXXXX")
 printf '\n공식 배포 파일 다운로드…\n'
 /usr/bin/curl --fail --location --proto '=https' --tlsv1.2 --retry 2 --output "$WORK/app.zip" "$URL"
@@ -67,6 +90,7 @@ STAGE=$(/usr/bin/mktemp -d "$APP_DIR/.studyglass-stage.XXXXXX")
 # Only this newly verified app bundle; never change global Gatekeeper settings.
 /usr/bin/xattr -r -d com.apple.quarantine "$STAGE/Study Glass.app"
 /usr/bin/codesign --verify --deep --strict "$STAGE/Study Glass.app"
+stop_study_glass
 if [ -e "$DEST" ]; then
   BACKUP=$(/usr/bin/mktemp -d "$APP_DIR/StudyGlass-backup.XXXXXX")
   /usr/bin/ditto -c -k --sequesterRsrc --keepParent "$DEST" "$BACKUP/StudyGlass-preserved.zip"

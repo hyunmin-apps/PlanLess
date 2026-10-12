@@ -1,0 +1,12 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const html=fs.readFileSync(require('node:path').join(__dirname,'../Resources/index.html'),'utf8');
+const source=html.slice(html.indexOf('function deleteTasksForDates('),html.indexOf('let pendingBulkDates='));
+const context={};vm.createContext(context);vm.runInContext(source,context);
+const state={deleted:{},status:{a:2,b:1,c:2},extra:{},edits:{a:{title:'edited'}}};
+const byDate={'2026-10-12':[{id:'a'},{id:'b'}],'2026-10-13':[{id:'c'}],'2026-10-19':[{id:'d'}]};
+const tasks=d=>(byDate[d]||[]).filter(t=>!state.deleted[t.id]);
+assert.equal(context.deleteTasksForDates(state,['2026-10-12'],tasks),2);
+assert.equal(tasks('2026-10-12').length,0);assert.equal(tasks('2026-10-13').length,1);assert.equal(state.status.c,2);
+assert.equal(context.deleteTasksForDates(state,['2026-10-12','2026-10-13','2026-10-14','2026-10-15','2026-10-16','2026-10-17','2026-10-18'],tasks),1);
+assert.equal(tasks('2026-10-19').length,1);assert.equal(context.deleteTasksForDates(state,['2026-10-12'],tasks),0);
+console.log('PASS: day/week scope, untouched adjacent week, status cleanup, repeated deletion');

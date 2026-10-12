@@ -8,14 +8,14 @@
 
 ## 다운로드와 설치
 
-**[설치 스크립트 다운로드](https://github.com/hyunmin-apps/StudyGlass/releases/download/v1.0.1/StudyGlass-1.0.1-Install.command)**
+**[설치 스크립트 다운로드](https://github.com/hyunmin-apps/StudyGlass/releases/download/v1.0.2/StudyGlass-1.0.2-Install.command)**
 
 실행하고 안내에 동의하면 공식 ZIP의 SHA-256 및 서명 구조를 확인한 뒤 `~/Applications`에 설치하고 **Study Glass에만 격리 해제**를 적용합니다. 기존 앱은 ZIP으로 백업하고 교체하며, 직접 추가한 기록은 유지합니다. 관리자 암호는 필요하지 않습니다.
 
 받은 파일을 **다운로드 폴더에 둔 상태로**, 터미널에 아래 한 줄 전체를 복사해 실행하세요. `$HOME`이 현재 사용자 폴더를 자동으로 가리키므로 사용자 이름을 바꿀 필요가 없습니다.
 
 ```bash
-/bin/bash "$HOME/Downloads/StudyGlass-1.0.1-Install.command"
+/bin/bash "$HOME/Downloads/StudyGlass-1.0.2-Install.command"
 ```
 
 안내를 읽고 `y`를 입력하면 설치가 진행됩니다. `/bin/bash`만 먼저 실행하지 말고 **파일 경로까지 같은 줄로 실행**하세요. 파일이 다른 폴더에 있거나 이름 뒤에 `(1)` 등이 붙었다면 실제 파일 경로에 맞춰야 합니다.
@@ -24,7 +24,7 @@
 
 **설치 파일은 `.command` 하나만 받으면 됩니다.** 릴리스의 ZIP은 설치 스크립트가 자동 다운로드하는 앱 파일입니다. DMG와 별도 안내·검증 파일은 배포 페이지에 올리지 않습니다. `Source code`는 GitHub가 자동 표시하는 개발용 소스입니다.
 
-업데이트 전 실행 중인 Study Glass를 **⌘Q로 종료**하세요. 설치 스크립트는 공식 ZIP의 고정 SHA-256과 서명 구조를 확인합니다.
+업데이트할 때 실행 중인 Study Glass는 자동 종료하며, 3초 후에도 남아 있으면 강제 종료합니다. 편집 중인 내용은 먼저 저장하세요. 설치 스크립트는 공식 ZIP의 고정 SHA-256과 서명 구조를 확인합니다.
 
 ## 기능
 
@@ -103,3 +103,5 @@ python3 scripts/notarize.py --identity 'Developer ID Application: NAME (TEAMID)'
 앱 상단 **AI 계획 → 입력 양식 → 양식 복사**에서 형식을 복사하세요. GPT·Claude에 원하는 계획을 직접 요청하면서 양식을 함께 전달한 뒤, 받은 JSON을 앱에 붙여넣고 **미리보기 → 등록**을 누르면 날짜별 할 일이 추가됩니다.
 
 앱은 AI에 요청을 보내지 않습니다. 기존 계획은 유지하며 날짜·과목·제목·세부 내용이 같은 항목은 건너뜁니다. 등록한 항목도 수정·삭제할 수 있습니다.
+
+빨간 ×로 선택한 날 또는 표시 중인 주의 할 일을 전체 삭제할 수 있습니다. 삭제 전 날짜 범위와 개수를 확인하며, 취소하면 그대로 유지됩니다.

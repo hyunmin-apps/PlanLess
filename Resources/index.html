@@ -11,10 +11,11 @@ header{margin-bottom:20px}.brand,.compact .brand{font-size:13px;font-weight:600;
 dialog{width:min(420px,calc(100vw - 32px));background:#222226;color:var(--ink);border:1px solid #ffffff20;border-radius:18px;padding:24px;box-shadow:0 20px 70px #0008}dialog::backdrop{background:#0008}dialog h2{font-size:17px;margin:0 0 22px}dialog label{display:block;font-size:12px;color:var(--muted);margin:16px 0 7px}dialog input,dialog textarea{width:100%;padding:11px;background:#18181c;border:1px solid #ffffff20;border-radius:8px;color:var(--ink)}dialog textarea{min-height:85px;font-size:13px}.dialogactions{display:flex;gap:10px;align-items:center;margin-top:24px}.danger{color:#f2a3a3}.primary{background:#dddde4;color:#18181c;font-weight:600}.dialogerror{font-size:12px;color:#f2a3a3;margin-top:10px}.deletepreview{overflow-wrap:anywhere;line-height:1.6;color:var(--muted)}
 
 #importDialog{width:min(650px,calc(100vw - 32px));max-height:85vh;overflow:auto}#importDialog h2{margin-bottom:12px}.importhelp{font-size:12px;color:var(--muted);line-height:1.7}.importpreview{max-height:240px;overflow:auto;margin-top:16px}.importday{font-size:12px;margin:18px 0 6px}.importitem{padding:9px 0;border-top:1px solid var(--line);font-size:13px;overflow-wrap:anywhere}.importitem strong{font-size:11px;display:block;margin-bottom:4px}#aiPrompt{min-height:150px}#importText{min-height:160px}button:disabled{opacity:.4;cursor:default}.importitem .detail{white-space:pre-wrap}header{flex-wrap:wrap}
+.danger.icon{color:#ef8585;font-size:19px;line-height:1;padding:6px 9px}.nav{flex-wrap:wrap}
 </style>
 <div class="shell"><header><div class="brand">공부 계획</div><div class="tools"><button id="aiPlan" class="pill">AI 계획</button><button id="desktop" class="pill" title="일반 창 뒤, 바탕화면에 두기">⌂ <span class="desktopLabel">바탕화면</span></button><button id="pin" class="pill" title="다른 창 위에 고정">고정</button><button id="compact" class="pill" title="작은 위젯 창 전환">작게</button></div></header>
-<div class="nav"><button id="prev" class="icon" aria-label="이전 주">‹</button><span id="range" class="range"></span><button id="next" class="icon" aria-label="다음 주">›</button><button id="today" class="pill">오늘</button><span class="spacer"></span><div class="switch"><button id="dayview">하루</button><button id="weekview">한 주 펼치기</button></div></div>
-<div id="week" class="week"></div><div class="content"><section class="main"><div class="sectionhead"><div id="daytitle" class="sectiontitle"></div><span id="progress" class="badge"></span></div><div id="tasks" class="tasks"></div><form id="addform" class="add"><input id="newsubject" aria-label="과목명" placeholder="과목명" maxlength="30"><input id="newtask" aria-label="할 일 추가" placeholder="목표 추가" maxlength="180"><button class="pill" aria-label="추가">＋</button></form></section></div><div id="error" role="alert"></div></div>
+<div class="nav"><button id="prev" class="icon" aria-label="이전 주">‹</button><span id="range" class="range"></span><button id="next" class="icon" aria-label="다음 주">›</button><button id="deleteWeek" class="icon danger" aria-label="이번 주 전체 삭제" title="이번 주 전체 삭제">×</button><button id="today" class="pill">오늘</button><span class="spacer"></span><div class="switch"><button id="dayview">하루</button><button id="weekview">한 주 펼치기</button></div></div>
+<div id="week" class="week"></div><div class="content"><section class="main"><div class="sectionhead"><div id="daytitle" class="sectiontitle"></div><div class="row"><span id="progress" class="badge"></span><button id="deleteDay" class="icon danger" aria-label="선택한 날 전체 삭제" title="선택한 날 전체 삭제">×</button></div></div><div id="tasks" class="tasks"></div><form id="addform" class="add"><input id="newsubject" aria-label="과목명" placeholder="과목명" maxlength="30"><input id="newtask" aria-label="할 일 추가" placeholder="목표 추가" maxlength="180"><button class="pill" aria-label="추가">＋</button></form></section></div><div id="error" role="alert"></div></div>
 <dialog id="editor" aria-labelledby="editheading"><form id="editform">
 <h2 id="editheading">할 일 수정</h2>
 <label for="editSubject">과목명</label><input id="editSubject" maxlength="30" required>
@@ -33,6 +34,7 @@ dialog{width:min(420px,calc(100vw - 32px));background:#222226;color:var(--ink);b
 <div id="importError" class="dialogerror" role="alert"></div><div id="importSummary" class="importhelp" role="status"></div><div id="importPreview" class="importpreview"></div>
 <div class="dialogactions"><button id="cancelImport" class="pill">닫기</button><span class="spacer"></span><button id="previewImport" class="pill">미리보기</button><button id="confirmImport" class="pill primary" disabled>등록</button></div>
 </dialog>
+<dialog id="bulkDeleteDialog" aria-labelledby="bulkDeleteHeading"><h2 id="bulkDeleteHeading">계획 삭제</h2><p id="bulkDeletePreview" class="deletepreview"></p><div class="dialogactions"><span class="spacer"></span><button id="cancelBulkDelete" class="pill">취소</button><button id="confirmBulkDelete" class="pill danger">전체 삭제</button></div></dialog>
 <script src="import-plan.js"></script>
 <script>
 const PLAN=[];
@@ -59,6 +61,25 @@ $('cancelDelete').onclick=()=>$('deleteDialog').close();
 $('confirmDelete').onclick=()=>{state.deleted[editingId]=true;delete state.status[editingId];save();$('deleteDialog').close();$('editor').close();render()};
 
 $('prev').onclick=()=>{start=shift(start,-7);selected=shift(selected,-7);save();render()};$('next').onclick=()=>{start=shift(start,7);selected=shift(selected,7);save();render()};$('today').onclick=()=>{selected=key(new Date());start=mon(selected);save();render()};$('dayview').onclick=()=>{expanded=false;save();render()};$('weekview').onclick=()=>{expanded=true;save();render()};$('addform').onsubmit=e=>{e.preventDefault();let title=$('newtask').value.trim();if(!title)return;(state.extra[selected]||=[]).push({id:'custom-'+crypto.randomUUID(),subject:$('newsubject').value.trim()||'할 일',title,detail:'',custom:true});$('newtask').value='';save();render()};
+function deleteTasksForDates(targetState,dates,getTasks){
+ let count=0;
+ for(const date of dates){for(const task of getTasks(date)){targetState.deleted[task.id]=true;delete targetState.status[task.id];count++}}
+ return count;
+}
+let pendingBulkDates=[];
+function openBulkDelete(week){
+ pendingBulkDates=week?Array.from({length:7},(_,i)=>shift(start,i)):[selected];
+ const count=pendingBulkDates.reduce((sum,date)=>sum+tasks(date).length,0);
+ $('bulkDeleteHeading').textContent=week?'이번 주 계획 전체 삭제':'이날 계획 전체 삭제';
+ const range=week?`${start} ~ ${shift(start,6)}`:selected;
+ $('bulkDeletePreview').textContent=count?`${range}의 할 일 ${count}개를 모두 삭제할까요?`:`${range}에 삭제할 할 일이 없어요.`;
+ $('confirmBulkDelete').disabled=!count;$('bulkDeleteDialog').showModal();
+}
+$('deleteWeek').onclick=()=>openBulkDelete(true);
+$('deleteDay').onclick=()=>openBulkDelete(false);
+$('cancelBulkDelete').onclick=()=>$('bulkDeleteDialog').close();
+$('confirmBulkDelete').onclick=()=>{deleteTasksForDates(state,pendingBulkDates,tasks);save();render();$('bulkDeleteDialog').close()};
+
 let importReady=null;
 $('aiPlan').onclick=()=>{
  $('aiPrompt').value=`Study Glass 입력 양식
