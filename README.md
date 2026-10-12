@@ -22,26 +22,9 @@
 
 **공증을 대체하지 않으며 설치자가 스크립트를 실행하는 단계는 필요합니다.** `/Applications`의 기존 앱은 자동 삭제하지 않습니다.
 
-아래는 수동 설치 방법입니다.
+**설치 파일은 `.command` 하나만 받으면 됩니다.** 릴리스의 ZIP은 설치 스크립트가 자동 다운로드하는 앱 파일입니다. DMG와 별도 안내·검증 파일은 배포 페이지에 올리지 않습니다. `Source code`는 GitHub가 자동 표시하는 개발용 소스입니다.
 
-[Releases](https://github.com/hyunmin-apps/StudyGlass/releases)에서 `StudyGlass-0.1.3-macOS-universal-UNNOTARIZED-preview.dmg`를 받으세요. **동일한 파일이 Apple Silicon과 Intel Mac을 지원합니다. macOS 14 Sonoma 이상이 필요합니다.**
-
-1. DMG를 열고 `Study Glass.app`을 `Applications`로 복사합니다.
-2. 앱을 한 번 실행합니다. Apple이 확인할 수 없다는 경고가 나오면 아래 첫 실행 안내를 따릅니다.
-3. 바탕화면 우클릭 → **위젯 편집 → Study Glass**에서 하루 목표 또는 주간 목표를 추가합니다.
-4. 위젯의 날짜를 눌러 앱을 열고 목표를 확인합니다. 체크 변경은 앱에서 합니다.
-
-Developer ID 서명·Apple 공증 전 **시험 릴리스**입니다. macOS가 다운로드한 앱의 실행을 차단할 수 있습니다. ZIP은 DMG와 같은 앱의 대체 배포 형식입니다. 다운로드 파일의 무결성은 함께 제공하는 `SHA256SUMS.txt`로 확인할 수 있습니다.
-
-### 첫 실행이 차단될 때
-
-현재 배포는 **Apple 공증 전 시험판**입니다. 경고 없는 정식 배포가 아니며 Intel 호환성과는 별개의 문제입니다.
-
-공식 배포 파일을 신뢰하고 실행하려는 경우, 경고에서 **완료** → **시스템 설정 → 개인정보 보호 및 보안 → 보안 → 그래도 열기**를 선택한 뒤 macOS 확인 절차를 진행하세요. [Apple의 공식 안내](https://support.apple.com/102445)를 참고하세요. 관리되는 Mac에서는 허용되지 않을 수 있습니다.
-
-DMG는 **Finder에서 더블클릭**합니다. 터미널에 파일 이름만 입력하는 것은 실행 명령이 아닙니다. ZIP에도 같은 설치 안내를 포함했습니다. ‘손상됨’이나 ‘컴퓨터를 손상시킴’ 경고는 별도로 확인해야 합니다.
-
-[전체 설치 안내](docs/INSTALL.txt) · [배포 오류 분석](docs/distribution-incident.md)
+업데이트 전 실행 중인 Study Glass를 **⌘Q로 종료**하세요. 설치 스크립트는 공식 ZIP의 고정 SHA-256과 서명 구조를 확인합니다.
 
 ## 기능
 
@@ -92,7 +75,7 @@ python3 scripts/package.py      # DMG, ZIP, SHA256SUMS, manifest
 1. `VERSION`과 `CHANGELOG.md`를 갱신합니다.
 2. Universal 빌드와 검증 후 `scripts/package.py`를 실행합니다.
 3. CI의 Apple Silicon·Intel 결과를 확인합니다.
-4. 해당 커밋에 버전 태그를 붙이고 `dist/`의 DMG·ZIP·해시·manifest를 GitHub Release에 올립니다.
+4. 해당 커밋에 버전 태그를 붙이고 `dist/`의 설치 스크립트와 앱 ZIP만 GitHub Release에 올립니다. DMG·해시·manifest는 로컬 검증용으로 보관합니다.
 
 Developer ID 인증서와 Keychain의 notarytool 인증 프로필이 준비된 경우:
 
