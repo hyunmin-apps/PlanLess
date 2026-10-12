@@ -1,0 +1,14 @@
+const assert=require('node:assert/strict');
+const {PlanImport:p}=require('../Resources/import-plan.js');
+const row={date:'2026-10-12',subject:'동역학',title:'6문제',detail:'해설 없이'};
+const json=tasks=>JSON.stringify({version:1,tasks});
+assert.deepEqual(p.parse(json([row])),[row]);
+assert.deepEqual(p.parse('```json\n'+json([row])+'\n```'),[row]);
+for(const date of ['2026-02-29','2026-04-31','2026-13-01','26-10-12','1999-12-31'])assert.throws(()=>p.parse(json([{...row,date}])));
+assert.equal(p.parse(json([{...row,date:'2028-02-29'}]))[0].date,'2028-02-29');
+for(const tasks of [[],Array(501).fill(row),[{...row,subject:' '}],[{...row,title:123}],[{...row,detail:{}}],[{...row,title:'a'.repeat(181)}]])assert.throws(()=>p.parse(json(tasks)));
+assert.throws(()=>p.parse('not json'));assert.throws(()=>p.parse('{"version":2,"tasks":[]}'));
+let result=p.prepare([row,row,{...row,date:'2026-10-13'}],()=>[row]);assert.equal(result.tasks.length,0);assert.equal(result.skipped,3);
+result=p.prepare([row,row,{...row,date:'2026-10-13'}],date=>date==='2026-10-12'?[row]:[]);assert.equal(result.tasks.length,1);assert.equal(result.skipped,2);
+assert.equal(p.parse(json([{...row,subject:'  수학 ',detail:undefined}]))[0].detail,'');
+console.log('PASS: JSON/fences, date validity, limits, required fields, duplicate detection');

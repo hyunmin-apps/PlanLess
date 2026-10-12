@@ -15,6 +15,7 @@ def main():
  html=(ROOT/'Resources/index.html').read_text();start=html.index('const PLAN=');end=html.index('const colors=',start)
  html=html[:start]+'const PLAN='+(ROOT/'Resources/plan.json').read_text()+';\n'+html[end:]
  (app/'Contents/Resources/index.html').write_text(html)
+ run('cp',ROOT/'Resources/import-plan.js',app/'Contents/Resources/import-plan.js')
  run('cp',ROOT/'Resources/AppIcon.icns',app/'Contents/Resources/AppIcon.icns')
  run('cp',ROOT/'Resources/plan.json',widget/'Contents/Resources/plan.json')
  for name,source,frameworks,bundle in [('StudyGlass','Sources/main.swift',['Cocoa','WebKit','WidgetKit'],app),('StudyGlassWidget','Widget/StudyWidget.swift',['SwiftUI','WidgetKit'],widget)]:

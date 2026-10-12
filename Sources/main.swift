@@ -10,7 +10,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
  let stateURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("StudyGlass/state.json")
  func applicationDidFinishLaunching(_ notification: Notification) {
   let menu = NSMenu(); let item = NSMenuItem(); menu.addItem(item)
-  let appMenu = NSMenu(); appMenu.addItem(withTitle: "Study Glass 종료", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"); item.submenu = appMenu; NSApp.mainMenu = menu
+  let appMenu = NSMenu(); appMenu.addItem(withTitle: "Study Glass 종료", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"); item.submenu = appMenu
+  let editItem = NSMenuItem(); menu.addItem(editItem); let editMenu = NSMenu(title: "편집"); editItem.submenu = editMenu
+  for (title, selector, key) in [("실행 취소", "undo:", "z"), ("잘라내기", "cut:", "x"), ("복사", "copy:", "c"), ("붙여넣기", "paste:", "v"), ("전체 선택", "selectAll:", "a")] {editMenu.addItem(withTitle: title, action: Selector(selector), keyEquivalent: key)}
+  NSApp.mainMenu = menu
   window = NSWindow(contentRect: NSRect(x: 180,y: 180,width: 1080,height: 760),styleMask: [.titled,.closable,.miniaturizable,.resizable,.fullSizeContentView],backing: .buffered,defer: false)
   window.appearance = NSAppearance(named: .darkAqua); window.title = "Study Glass"; window.titlebarAppearsTransparent = true; window.titleVisibility = .hidden
   window.isOpaque = false; window.backgroundColor = .clear; window.isMovableByWindowBackground = true
@@ -34,7 +37,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
  }
  func userContentController(_ userContentController: WKUserContentController,didReceive message: WKScriptMessage) {
   guard let body = message.body as? [String: Any],let action = body["action"] as? String else { return }
-  if action == "save", let state = body["state"], JSONSerialization.isValidJSONObject(state) {
+  if action == "copyText", let text = body["text"] as? String {
+   NSPasteboard.general.clearContents(); NSPasteboard.general.setString(text, forType: .string)
+  } else if action == "save", let state = body["state"], JSONSerialization.isValidJSONObject(state) {
    do {try FileManager.default.createDirectory(at: stateURL.deletingLastPathComponent(),withIntermediateDirectories: true); let data = try JSONSerialization.data(withJSONObject: state,options: [.prettyPrinted,.sortedKeys]);try data.write(to: stateURL,options: .atomic);syncWidget()} catch {web.evaluateJavaScript("showError('저장하지 못했어요. 저장 공간을 확인해 주세요.')")}
   } else if action == "pin" {UserDefaults.standard.set(body["value"] as? Bool == true,forKey:"pin");window.level = (body["value"] as? Bool == true) ? .floating : .normal
   } else if action == "compact" {let small = body["value"] as? Bool == true; UserDefaults.standard.set(small,forKey:"compact"); var frame = window.frame; let top = frame.maxY;frame.size = small ? NSSize(width: 410,height: 720) : NSSize(width: 1080,height: 760);frame.origin.y = top-frame.height;window.setFrame(frame,display: true,animate: true)

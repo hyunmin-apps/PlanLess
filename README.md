@@ -8,14 +8,14 @@
 
 ## 다운로드와 설치
 
-**[설치 스크립트 다운로드](https://github.com/hyunmin-apps/StudyGlass/releases/download/v0.1.3/StudyGlass-0.1.3-Install.command)**
+**[설치 스크립트 다운로드](https://github.com/hyunmin-apps/StudyGlass/releases/download/v1.0.0/StudyGlass-1.0.0-Install.command)**
 
 실행하고 안내에 동의하면 공식 ZIP의 SHA-256 및 서명 구조를 확인한 뒤 `~/Applications`에 설치하고 **Study Glass에만 격리 해제**를 적용합니다. 기존 앱은 백업하며 기록은 유지합니다. 관리자 암호는 필요하지 않습니다.
 
 받은 파일을 **다운로드 폴더에 둔 상태로**, 터미널에 아래 한 줄 전체를 복사해 실행하세요. `$HOME`이 현재 사용자 폴더를 자동으로 가리키므로 사용자 이름을 바꿀 필요가 없습니다.
 
 ```bash
-/bin/bash "$HOME/Downloads/StudyGlass-0.1.3-Install.command"
+/bin/bash "$HOME/Downloads/StudyGlass-1.0.0-Install.command"
 ```
 
 안내를 읽고 `y`를 입력하면 설치가 진행됩니다. `/bin/bash`만 먼저 실행하지 말고 **파일 경로까지 같은 줄로 실행**하세요. 파일이 다른 폴더에 있거나 이름 뒤에 `(1)` 등이 붙었다면 실제 파일 경로에 맞춰야 합니다.
@@ -97,3 +97,9 @@ python3 scripts/notarize.py --identity 'Developer ID Application: NAME (TEAMID)'
 - `scripts/`: Universal 빌드와 배포 파일 생성.
 
 날짜 중심 사용 흐름은 [todo mate](https://www.todomate.net/)와 [Things](https://culturedcode.com/things/features/)를 참고했습니다. 아이콘과 UI는 자체 작성했으며 해당 서비스의 리소스를 포함하지 않습니다.
+
+### AI 결과로 계획 등록
+
+앱 상단 **AI 계획 → 입력 양식 → 양식 복사**에서 형식을 복사하세요. GPT·Claude에 원하는 계획을 직접 요청하면서 양식을 함께 전달한 뒤, 받은 JSON을 앱에 붙여넣고 **미리보기 → 등록**을 누르면 날짜별 할 일이 추가됩니다.
+
+앱은 AI에 요청을 보내지 않습니다. 기존 계획은 유지하며 날짜·과목·제목·세부 내용이 같은 항목은 건너뜁니다. 등록한 항목도 수정·삭제할 수 있습니다.

@@ -19,6 +19,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+      - run: node tests/import-plan.cjs
       - run: python3 tests/widget_model.py
       - run: ./build.sh --arch ${{ matrix.arch }}
       - run: python3 tests/verify.py 'build/${{ matrix.arch }}/Study Glass.app' ${{ matrix.arch }}
