@@ -8,14 +8,14 @@
 
 ## 다운로드와 설치
 
-**[설치 스크립트 다운로드](https://github.com/hyunmin-apps/StudyGlass/releases/download/v0.1.2/StudyGlass-0.1.2-Install.command)**
+**[설치 스크립트 다운로드](https://github.com/hyunmin-apps/StudyGlass/releases/download/v0.1.3/StudyGlass-0.1.3-Install.command)**
 
 실행하고 안내에 동의하면 공식 ZIP의 SHA-256 및 서명 구조를 확인한 뒤 `~/Applications`에 설치하고 **Study Glass에만 격리 해제**를 적용합니다. 기존 앱은 백업하며 기록은 유지합니다. 관리자 암호는 필요하지 않습니다.
 
 받은 파일을 **다운로드 폴더에 둔 상태로**, 터미널에 아래 한 줄 전체를 복사해 실행하세요. `$HOME`이 현재 사용자 폴더를 자동으로 가리키므로 사용자 이름을 바꿀 필요가 없습니다.
 
 ```bash
-/bin/bash "$HOME/Downloads/StudyGlass-0.1.2-Install.command"
+/bin/bash "$HOME/Downloads/StudyGlass-0.1.3-Install.command"
 ```
 
 안내를 읽고 `y`를 입력하면 설치가 진행됩니다. `/bin/bash`만 먼저 실행하지 말고 **파일 경로까지 같은 줄로 실행**하세요. 파일이 다른 폴더에 있거나 이름 뒤에 `(1)` 등이 붙었다면 실제 파일 경로에 맞춰야 합니다.
@@ -24,7 +24,7 @@
 
 아래는 수동 설치 방법입니다.
 
-[Releases](https://github.com/hyunmin-apps/StudyGlass/releases)에서 `StudyGlass-0.1.2-macOS-universal-UNNOTARIZED-preview.dmg`를 받으세요. **동일한 파일이 Apple Silicon과 Intel Mac을 지원합니다. macOS 14 Sonoma 이상이 필요합니다.**
+[Releases](https://github.com/hyunmin-apps/StudyGlass/releases)에서 `StudyGlass-0.1.3-macOS-universal-UNNOTARIZED-preview.dmg`를 받으세요. **동일한 파일이 Apple Silicon과 Intel Mac을 지원합니다. macOS 14 Sonoma 이상이 필요합니다.**
 
 1. DMG를 열고 `Study Glass.app`을 `Applications`로 복사합니다.
 2. 앱을 한 번 실행합니다. Apple이 확인할 수 없다는 경고가 나오면 아래 첫 실행 안내를 따릅니다.
@@ -46,13 +46,13 @@ DMG는 **Finder에서 더블클릭**합니다. 터미널에 파일 이름만 입
 ## 기능
 
 - 하루 보기 / 한 주 펼치기 / 이전·다음 주 / 오늘 이동.
-- 과목명과 하루 목표 추가. 같은 과목명은 같은 색상으로 표시.
+- 과목명과 하루 목표 추가·수정·삭제. 같은 과목명은 앱과 위젯에서 같은 색상으로 표시.
 - 미시작 → 학습 → 통과 → 미시작 순서의 체크와 자동 저장.
 - 상세 지침을 필요할 때만 펼치는 다크 화면.
 - macOS 정식 WidgetKit 위젯: 하루 목표 소·중·대, 주간 목표 대.
 - 작은 앱 창·다른 창 위 고정은 정식 위젯과 별도로 제공.
 
-0.1.0에는 **2026년 10월 12~22일 공부 계획 42개**가 예제로 포함됩니다. 주간 목표를 따로 만드는 구조가 아니라, 날짜별 목표를 한 주 단위로 모아 봅니다. 기본 예제는 앱에서 편집·삭제할 수 없고, 직접 추가한 목표는 삭제할 수 있습니다. 기본 계획을 바꾸려면 `Resources/plan.json`을 수정해 다시 빌드합니다.
+0.1.0에는 **2026년 10월 12~22일 공부 계획 42개**가 예제로 포함됩니다. 주간 목표를 따로 만드는 구조가 아니라, 날짜별 목표를 한 주 단위로 모아 봅니다. 기본 예제와 직접 추가한 목표 모두 **수정 → 과목명·할 일·세부 내용 변경 → 저장**할 수 있습니다. 삭제도 수정창에서 확인 후 진행합니다. 기존 체크 상태는 수정 후에도 유지되고 변경 사항은 주간 보기와 위젯에 반영됩니다.
 
 ## 지원과 검증 범위
 

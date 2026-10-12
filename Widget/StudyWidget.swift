@@ -19,11 +19,26 @@ func plans() -> [DayPlan] {
   let additional=items.compactMap { i -> Goal? in guard let id=i["id"] as? String,let title=i["title"] as? String else {return nil};return Goal(id:id,subject:i["subject"] as? String ?? "할 일",title:title,status:statuses[id] ?? 0)}
   if let index=result.firstIndex(where:{$0.id==day}) {result[index]=DayPlan(id:day,goals:result[index].goals+additional)} else {result.append(DayPlan(id:day,goals:additional))}
  }
- return result.sorted{$0.id<$1.id}
+ let edits=state["edits"] as? [String:[String:String]] ?? [:]
+ let deleted=state["deleted"] as? [String:Bool] ?? [:]
+ return result.map { day in
+  DayPlan(id:day.id,goals:day.goals.filter { deleted[$0.id] != true }.map { goal in
+   let edit=edits[goal.id] ?? [:]
+   return Goal(id:goal.id,subject:edit["subject"] ?? goal.subject,title:edit["title"] ?? goal.title,status:goal.status)
+  })
+ }.sorted{$0.id<$1.id}
 }
 func dayKey(_ date: Date) -> String {let f=DateFormatter();f.calendar=Calendar(identifier:.gregorian);f.dateFormat="yyyy-MM-dd";return f.string(from:date)}
 func subjectTint(_ subject:String) -> Color {
- switch subject {case "동역학": return Color(red:0.56,green:0.79,blue:0.69);case "전자회로":return Color(red:0.89,green:0.76,blue:0.52);case "확률과 통계":return Color(red:0.58,green:0.74,blue:0.94);case "자료구조":return Color(red:0.78,green:0.65,blue:0.92);default:return Color(red:0.91,green:0.66,blue:0.61)}
+ let normalized=subject.precomposedStringWithCanonicalMapping.components(separatedBy:.whitespacesAndNewlines).joined().lowercased()
+ let known:[String:UInt32]=["동역학":0x8ec9b0,"전자회로":0xe4c185,"확률과통계":0x95bdf0,"확통":0x95bdf0,"자료구조":0xc6a7eb,"자구알":0xc6a7eb,"차량소프트웨어":0xe9a99b,"차소웨":0xe9a99b,"할일":0xbcbcc6]
+ if let rgb=known[normalized] {return Color(red:Double((rgb>>16)&255)/255,green:Double((rgb>>8)&255)/255,blue:Double(rgb&255)/255)}
+ var hash:UInt32=0;for c in normalized.unicodeScalars {hash=hash &* 31 &+ c.value}
+ let h=Double(hash%360)/60, chroma=(1-abs(2*0.74-1))*0.52, m=0.74-chroma/2
+ let x=chroma*(1-abs(h.truncatingRemainder(dividingBy:2)-1))
+ let rgb:(Double,Double,Double)
+ switch Int(h) {case 0:rgb=(chroma,x,0);case 1:rgb=(x,chroma,0);case 2:rgb=(0,chroma,x);case 3:rgb=(0,x,chroma);case 4:rgb=(x,0,chroma);default:rgb=(chroma,0,x)}
+ return Color(red:rgb.0+m,green:rgb.1+m,blue:rgb.2+m)
 }
 struct Entry: TimelineEntry {let date:Date;let days:[DayPlan];var selected:DayPlan {days.first(where:{$0.id >= dayKey(date)}) ?? DayPlan(id:dayKey(date),goals:[])}}
 struct Provider: TimelineProvider {

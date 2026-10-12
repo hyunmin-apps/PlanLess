@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+"""Run the production widget projection with old and edited state fixtures."""
+import pathlib,subprocess,tempfile,json
+root=pathlib.Path(__file__).resolve().parents[1]
+s=(root/'Widget/StudyWidget.swift').read_text()
+s=s[s.index('struct Goal:'):s.index('func dayKey(')]
+start=s.index('func widgetState()');end=s.index('func plans()',start)
+s=s[:start]+'''func widgetState()->[String:Any] {
+ let data=try! Data(contentsOf:URL(fileURLWithPath:CommandLine.arguments[2]))
+ return try! JSONSerialization.jsonObject(with:data) as! [String:Any]
+}
+'''+s[end:]
+s=s.replace('Bundle.main.url(forResource:"plan",withExtension:"json")','Optional(URL(fileURLWithPath:CommandLine.arguments[1]))')
+s='import Foundation\n'+s+'''\nlet output=plans().map {day in ["id":day.id,"goals":day.goals.map {g in ["id":g.id,"subject":g.subject,"title":g.title,"status":g.status] as [String:Any]}] as [String:Any]}
+print(String(data:try! JSONSerialization.data(withJSONObject:output),encoding:.utf8)!)
+'''
+with tempfile.TemporaryDirectory(prefix='studyglass-widget-test-') as d:
+ p=pathlib.Path(d);(p/'main.swift').write_text(s)
+ subprocess.run(['xcrun','swiftc',str(p/'main.swift'),'-o',str(p/'test')],check=True)
+ fixture={'status':{'2026-10-12-0':2},'extra':{'2026-10-12':[{'id':'custom-test','subject':'기존 과목','title':'기존 목표'}]}}
+ def project():
+  (p/'state.json').write_text(json.dumps(fixture))
+  return json.loads(subprocess.check_output([str(p/'test'),str(root/'Resources/plan.json'),str(p/'state.json')],text=True))[0]['goals']
+ before=project();assert len(before)==5 and before[0]['status']==2
+ fixture.update(edits={'2026-10-12-0':{'subject':'수정 과목','title':'수정 내용'},'custom-test':{'subject':'사용자 과목','title':'사용자 수정'}},deleted={'2026-10-12-1':True})
+ after=project();assert len(after)==4;assert after[0]['subject']=='수정 과목' and after[0]['title']=='수정 내용' and after[0]['status']==2
+ assert after[-1]['title']=='사용자 수정';assert not any(g['id']=='2026-10-12-1' for g in after)
+ print('PASS: widget legacy state, edited default/custom goals, deletion and status preservation')
