@@ -17,12 +17,16 @@ print(String(data:try! JSONSerialization.data(withJSONObject:output),encoding:.u
 with tempfile.TemporaryDirectory(prefix='studyglass-widget-test-') as d:
  p=pathlib.Path(d);(p/'main.swift').write_text(s)
  subprocess.run(['xcrun','swiftc',str(p/'main.swift'),'-o',str(p/'test')],check=True)
+ (p/'plan.json').write_text(json.dumps([['2026-10-12','', [['과목','목표',''] for _ in range(4)]]]))
  fixture={'status':{'2026-10-12-0':2},'extra':{'2026-10-12':[{'id':'custom-test','subject':'기존 과목','title':'기존 목표'}]}}
  def project():
   (p/'state.json').write_text(json.dumps(fixture))
-  return json.loads(subprocess.check_output([str(p/'test'),str(root/'Resources/plan.json'),str(p/'state.json')],text=True))[0]['goals']
+  return json.loads(subprocess.check_output([str(p/'test'),str(p/'plan.json'),str(p/'state.json')],text=True))[0]['goals']
  before=project();assert len(before)==5 and before[0]['status']==2
  fixture.update(edits={'2026-10-12-0':{'subject':'수정 과목','title':'수정 내용'},'custom-test':{'subject':'사용자 과목','title':'사용자 수정'}},deleted={'2026-10-12-1':True})
  after=project();assert len(after)==4;assert after[0]['subject']=='수정 과목' and after[0]['title']=='수정 내용' and after[0]['status']==2
  assert after[-1]['title']=='사용자 수정';assert not any(g['id']=='2026-10-12-1' for g in after)
+ (p/'plan.json').write_text('[]');fixture={}
+ (p/'state.json').write_text('{}')
+ assert json.loads(subprocess.check_output([str(p/'test'),str(root/'Resources/plan.json'),str(p/'state.json')],text=True))==[]
  print('PASS: widget legacy state, edited default/custom goals, deletion and status preservation')

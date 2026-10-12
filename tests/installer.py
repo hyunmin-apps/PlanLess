@@ -12,7 +12,8 @@ with tempfile.TemporaryDirectory(prefix='studyglass-installer-test-') as directo
  opener=p/'open';opener.write_text('#!/bin/bash\nprintf "%s\\n" "$1" >> '+shlex.quote(str(log))+'\n');opener.chmod(0o755)
  text=(root/'scripts/install.command.in').read_text().replace('@VERSION@',version).replace('@ARCHIVE@',archive.name).replace('@SHA256@',hashlib.sha256(archive.read_bytes()).hexdigest())
  text=text.replace('APP_DIR="${HOME}/Applications"','APP_DIR='+shlex.quote(str(dest))).replace('/usr/bin/curl',shlex.quote(str(curl))).replace('/usr/bin/open',shlex.quote(str(opener))).replace('/usr/bin/pgrep -x StudyGlass','/usr/bin/false')
- script=p/'install.command';script.write_text(text)
+ text=text.replace('"$LSREGISTER"','/usr/bin/true').replace('/usr/bin/pluginkit','/usr/bin/true')
+ script=p/'install.command' ;script.write_text(text)
  def run(script,answer):return subprocess.run(['/bin/bash',str(script)],input=answer,text=True,capture_output=True)
  r=run(script,'n\n');assert r.returncode==0 and not dest.exists(),r.stderr
  bad=p/'bad.command';bad.write_text(text.replace(hashlib.sha256(archive.read_bytes()).hexdigest(),'0'*64))
@@ -21,11 +22,17 @@ with tempfile.TemporaryDirectory(prefix='studyglass-installer-test-') as directo
  app=dest/'Study Glass.app';assert app.exists() and log.exists()
  subprocess.run(['/usr/bin/xattr','-w','com.apple.quarantine','0083;00000000;Test;',str(app)],check=True)
  r=run(script,'y\n');assert r.returncode==0,r.stdout+r.stderr
- assert len(list(dest.glob('StudyGlass-backup.*/Study Glass.app')))==1
+ assert not list(dest.glob('StudyGlass-backup.*/Study Glass.app'))
+ assert len(list(dest.glob('StudyGlass-backup.*/StudyGlass-preserved.zip')))==1
  assert 'com.apple.quarantine' not in subprocess.check_output(['/usr/bin/xattr',str(app)],text=True)
  subprocess.run(['/usr/bin/codesign','--verify','--deep','--strict',str(app)],check=True)
  running=p/'running.command';running.write_text(text.replace('/usr/bin/false','/usr/bin/true'))
  r=run(running,'y\n');assert r.returncode!=0 and len(list(dest.glob('StudyGlass-backup.*')))==1
+ # Legacy backup apps are archived and removed; unrelated apps are untouched.
+ legacy=dest/'StudyGlass-backup.legacy'/'Study Glass.app';legacy.parent.mkdir()
+ subprocess.run(['ditto',str(app),str(legacy)],check=True)
+ r=run(script,'y\n');assert r.returncode==0,r.stdout+r.stderr
+ assert not legacy.exists() and list(legacy.parent.glob('*.zip'))
  # A failed final rename must restore the previous installation.
  mover=p/'mv';mover.write_text('#!/bin/bash\ncase "$1" in *studyglass-stage*) exit 1;; esac\nexec /bin/mv "$@"\n');mover.chmod(0o755)
  rollback=p/'rollback.command';rollback.write_text(text.replace('/bin/mv',shlex.quote(str(mover))))

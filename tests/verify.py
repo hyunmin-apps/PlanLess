@@ -11,7 +11,7 @@ widget=app/'Contents/PlugIns/StudyGlassWidget.appex'
 with (widget/'Contents/Info.plist').open('rb') as f:info=plistlib.load(f)
 assert info['NSExtension']['NSExtensionPointIdentifier']=='com.apple.widgetkit-extension'
 assert info['LSMinimumSystemVersion']=='14.0'
-plan=json.loads((root/'Resources/plan.json').read_text());assert len({d[0] for d in plan})==len(plan)
+plan=json.loads((root/'Resources/plan.json').read_text());assert plan==[], 'Release must start empty'
 html=(app/'Contents/Resources/index.html').read_text();assert 'const PLAN=' in html
 embedded=html.split('const PLAN=',1)[1].split('const colors=',1)[0].strip().rstrip(';');assert json.loads(embedded)==plan
 assert not list(app.rglob('state.json'));assert not list(app.rglob('study-state.json'))
