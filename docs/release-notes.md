@@ -1,17 +1,23 @@
-날짜별 공부 분량을 확인하는 macOS 계획 앱의 첫 공개 시험 릴리스입니다.
+**Apple 공증 전 시험판입니다. 첫 실행 시 macOS가 차단할 수 있습니다. 0.1.1에서도 공증 경고 자체는 사라지지 않습니다.**
 
-## 다운로드
+## 설치
 
-- **macOS 14 이상 · Apple Silicon / Intel 공용**: `StudyGlass-0.1.0-macOS-universal.dmg`
-- ZIP은 동일한 앱의 대체 압축 파일입니다.
-- 앱을 Applications로 복사해 한 번 실행한 뒤, 바탕화면 우클릭 → 위젯 편집 → Study Glass에서 추가합니다.
+1. `StudyGlass-0.1.1-macOS-universal-UNNOTARIZED-preview.dmg`를 다운로드하고 **Finder에서 더블클릭**합니다.
+2. `Study Glass.app`을 Applications에 복사하고 실행합니다.
+3. “Apple이 악성 코드가 없음을 확인할 수 없음” 경고가 나오면 **완료**를 누릅니다. 공식 파일을 신뢰하고 실행을 원할 때만 **시스템 설정 → 개인정보 보호 및 보안 → 보안 → 그래도 열기**를 선택하고 확인 절차를 진행합니다.
+4. 바탕화면 우클릭 → 위젯 편집 → Study Glass에서 위젯을 추가합니다.
 
-## 포함 기능
+ZIP에도 같은 앱과 설치 안내가 들어 있습니다. DMG 파일명은 터미널 명령어가 아닙니다. [Apple 공식 안내](https://support.apple.com/102445).
 
-일별·주간 계획, 같은 과목의 일관된 색상, 다크 모드, 목표 추가, 미시작·학습·통과 체크, 로컬 저장, 정식 macOS 하루/주간 위젯을 제공합니다. 예제 공부 계획 42개가 포함되어 있습니다. 사용자 체크·메모·개인 로컬 상태 파일은 배포 파일에 포함되지 않습니다.
+## 이번 변경
 
-## 검증과 제한
+- DMG와 ZIP 모두 첫 실행 안내 포함. 별도 `INSTALL.txt` 제공.
+- 파일명에 `UNNOTARIZED-preview` 표시, manifest에 실제 Gatekeeper 평가 기록.
+- VERSION과 앱 버전 불일치 시 오래된 앱 패키징 중단.
+- Developer ID와 공증 인증 정보가 있을 때 사용할 서명·공증 경로 추가. 미공증 앱은 공증 배포 모드에서 거부.
 
-앱과 위젯 모두 arm64 및 x86_64를 포함합니다. 배포 검사에서 코드 서명 구조, 외부 로컬 경로 의존성 부재, 계획 데이터 일치를 검사합니다. GitHub CI의 아키텍처별 빌드·프로세스 실행 결과와 실제 위젯 UI 검증 범위는 README와 docs/verification.md를 참고하세요.
+## 지원과 한계
 
-**Developer ID 서명과 Apple 공증 전 ad-hoc 서명 버전**이라 다운로드 후 macOS가 실행을 차단할 수 있습니다. 실제 Intel Mac에서 위젯 배치 및 macOS 14 최소 버전 UI 검증은 남아 있습니다. 위젯 체크는 앱에서 변경하며 위젯 표시는 시스템 갱신 시 반영됩니다. 기본 예제 계획은 앱에서 수정할 수 없고 소스의 plan.json 수정 후 재빌드할 수 있습니다.
+macOS 14 이상, Apple Silicon 및 Intel 공용. 앱 기능과 기존 데이터 경로는 유지합니다. 업데이트 전 `~/Library/Application Support/StudyGlass/state.json`을 복사해 백업할 수 있습니다.
+
+아키텍처 CI와 실제 다운로드 첫 실행 검증은 다릅니다. Developer ID 서명·공증은 아직 완료하지 못했습니다. 최소 지원 OS와 실제 Intel Mac의 위젯 UI 확인도 별도 필요합니다. [원인 분석](https://github.com/hyunmin-apps/StudyGlass/blob/main/docs/distribution-incident.md).

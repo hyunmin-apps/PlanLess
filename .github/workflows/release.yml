@@ -20,4 +20,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           version="$(cat VERSION)"
-          gh release create "v$version" dist/*.dmg dist/*.zip dist/SHA256SUMS.txt dist/release-manifest.json --target "$GITHUB_SHA" --title "Study Glass $version — macOS Universal" --notes-file docs/release-notes.md --prerelease
+          gh release create "v$version" dist/*.dmg dist/*.zip dist/SHA256SUMS.txt dist/release-manifest.json dist/INSTALL.txt --target "$GITHUB_SHA" --title "Study Glass $version — macOS Universal (공증 전 시험판)" --notes-file docs/release-notes.md --prerelease

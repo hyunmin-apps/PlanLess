@@ -4,7 +4,9 @@ import argparse, os, pathlib, plistlib, subprocess
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 def run(*args): subprocess.run(list(map(str,args)),check=True,cwd=ROOT)
 def main():
- p=argparse.ArgumentParser();p.add_argument('--arch',choices=['universal','arm64','x86_64'],default='universal');a=p.parse_args()
+ p=argparse.ArgumentParser();p.add_argument('--arch',choices=['universal','arm64','x86_64'],default='universal');p.add_argument('--identity',default='-',help='Developer ID Application identity, or - for local preview');a=p.parse_args()
+ if a.identity != '-' and not a.identity.startswith('Developer ID Application:'):
+  p.error('Use a Developer ID Application identity for distribution')
  version=(ROOT/'VERSION').read_text().strip();out=ROOT/'build'/a.arch; app=out/'Study Glass.app'; widget=app/'Contents/PlugIns/StudyGlassWidget.appex'
  arches=['arm64','x86_64'] if a.arch=='universal' else [a.arch]
  for bundle in [app,widget]:
@@ -31,8 +33,10 @@ def main():
   if bundle==widget:info['NSExtension']={'NSExtensionPointIdentifier':'com.apple.widgetkit-extension'}
   else:info.update(CFBundleIconFile='AppIcon',NSHighResolutionCapable=True,CFBundleURLTypes=[{'CFBundleURLName':'Study Glass Date','CFBundleURLSchemes':['studyglass']}])
   with (bundle/'Contents/Info.plist').open('wb') as f:plistlib.dump(info,f)
- run('codesign','--force','--sign','-','--entitlements','Widget/entitlements.plist',widget)
- run('codesign','--force','--sign','-',app)
+ sign=['codesign','--force','--sign',a.identity]
+ if a.identity != '-':sign+=['--options','runtime','--timestamp']
+ run(*sign,'--entitlements','Widget/entitlements.plist',widget)
+ run(*sign,app)
  run('codesign','--verify','--deep','--strict',app)
  print(app)
 if __name__=='__main__':main()
