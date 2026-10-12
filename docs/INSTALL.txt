@@ -1,28 +1,23 @@
-Study Glass 0.1.1 — 설치 안내
-macOS 14 Sonoma 이상 · Apple Silicon / Intel 공용
+Study Glass 0.1.2 — 설치 스크립트 안내
 
-이 시험판은 Apple 공증을 받지 않았습니다. 처음 실행할 때 차단될 수 있습니다.
-파일을 다시 다운로드하거나 ZIP 대신 DMG를 받아도 공증 상태는 바뀌지 않습니다.
+공식 릴리스에서 StudyGlass-0.1.2-Install.command를 받으세요.
+스크립트는 공증 전 앱이라는 점과 격리 해제 범위를 보여주고 y 입력을 받습니다.
+공식 ZIP 다운로드 → SHA-256 확인 → 서명 구조 확인 → ~/Applications에 설치
+→ Study Glass 앱의 격리 속성만 제거 → 실행 순서로 진행합니다.
+관리자 암호나 Xcode는 필요하지 않습니다. macOS 14 이상이 필요합니다.
+실행 중인 Study Glass는 종료해야 합니다. 기존 앱과 공부 기록은 보존합니다.
 
-1. Finder에서 DMG 파일을 더블클릭합니다.
-   Study Glass.app을 Applications(응용 프로그램) 폴더로 드래그합니다.
-   ZIP을 받았다면 압축을 풀고 앱을 응용 프로그램 폴더로 옮깁니다.
-2. 응용 프로그램 폴더의 Study Glass.app을 더블클릭합니다.
-3. “Apple은 악성 코드가 없음을 확인할 수 없습니다” 경고가 나오면 ‘완료’를 누릅니다.
-   공식 저장소에서 받은 파일임을 확인하고 실행을 원할 때만 다음을 진행합니다.
-4. 시스템 설정 → 개인정보 보호 및 보안 → 보안에서
-   Study Glass 차단 안내 옆 ‘그래도 열기’를 누르고 macOS 확인 절차를 진행합니다.
-   조직 관리 정책에 따라 허용되지 않을 수 있습니다.
-5. 앱을 실행한 뒤 바탕화면 우클릭 → 위젯 편집 → Study Glass에서 위젯을 추가합니다.
+다운로드한 .command 자체도 macOS에서 차단될 수 있습니다.
+이 경우 터미널에 /bin/bash 와 공백을 입력하고, 받은 .command 파일을
+터미널 창으로 드래그한 뒤 Enter를 누르세요. 스크립트를 읽고 출처를 확인한 후 실행하세요.
+이 방법도 설치자의 명시적인 실행이 필요하며, 무경고 자동 설치를 보장하지 않습니다.
 
-터미널에 .dmg 파일 이름만 입력하면 ‘command not found’가 나옵니다.
-DMG는 명령어가 아니라 Finder로 여는 디스크 이미지입니다.
-‘앱이 손상됨’ 또는 ‘컴퓨터를 손상시킴’ 경고는 위 경고와 다릅니다.
-그 경우 실행을 강행하지 말고 파일과 오류를 확인하세요.
+/Applications에 수동 설치한 앱이 있다면 새 앱은 ~/Applications에 별도로 설치됩니다.
+설치 후 실행되는 새 앱을 사용하세요. 이전 앱은 자동 삭제하지 않습니다.
 
-기존 앱은 종료하고 교체하세요. 목표와 체크 기록은 다음 위치에 유지됩니다.
-~/Library/Application Support/StudyGlass/state.json
-업데이트 전에 이 파일을 복사하면 백업할 수 있습니다.
+수동 설치: DMG를 Finder에서 열어 앱을 응용 프로그램 폴더로 복사합니다.
+공증 경고에서 완료 → 시스템 설정 → 개인정보 보호 및 보안 → 그래도 열기.
+‘손상됨’ 또는 ‘컴퓨터를 손상시킴’ 경고는 별도로 확인해야 합니다.
 
+기록 저장: ~/Library/Application Support/StudyGlass/state.json
 공식 배포: https://github.com/hyunmin-apps/StudyGlass/releases
-Apple 안내: https://support.apple.com/102445

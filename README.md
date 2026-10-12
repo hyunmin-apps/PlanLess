@@ -8,7 +8,15 @@
 
 ## 다운로드와 설치
 
-[Releases](https://github.com/hyunmin-apps/StudyGlass/releases)에서 `StudyGlass-0.1.1-macOS-universal-UNNOTARIZED-preview.dmg`를 받으세요. **동일한 파일이 Apple Silicon과 Intel Mac을 지원합니다. macOS 14 Sonoma 이상이 필요합니다.**
+**[설치 스크립트 다운로드](https://github.com/hyunmin-apps/StudyGlass/releases/download/v0.1.2/StudyGlass-0.1.2-Install.command)**
+
+실행하고 안내에 동의하면 공식 ZIP의 SHA-256 및 서명 구조를 확인한 뒤 `~/Applications`에 설치하고 **Study Glass에만 격리 해제**를 적용합니다. 기존 앱은 백업하며 기록은 유지합니다. 관리자 암호는 필요하지 않습니다.
+
+`.command` 자체가 차단되면 터미널에 `/bin/bash `를 입력하고 받은 파일을 드래그한 뒤 Enter를 누르세요. 스크립트의 출처와 내용을 확인한 후 실행하세요. **공증을 대체하지 않으며 설치자가 스크립트를 실행하는 단계는 필요합니다.** `/Applications`의 기존 앱은 자동 삭제하지 않습니다.
+
+아래는 수동 설치 방법입니다.
+
+[Releases](https://github.com/hyunmin-apps/StudyGlass/releases)에서 `StudyGlass-0.1.2-macOS-universal-UNNOTARIZED-preview.dmg`를 받으세요. **동일한 파일이 Apple Silicon과 Intel Mac을 지원합니다. macOS 14 Sonoma 이상이 필요합니다.**
 
 1. DMG를 열고 `Study Glass.app`을 `Applications`로 복사합니다.
 2. 앱을 한 번 실행합니다. Apple이 확인할 수 없다는 경고가 나오면 아래 첫 실행 안내를 따릅니다.

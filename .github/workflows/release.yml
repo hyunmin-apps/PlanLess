@@ -15,9 +15,11 @@ jobs:
       - uses: actions/checkout@v4
       - run: ./build.sh
       - run: python3 scripts/package.py
+      - name: Verify installer in isolated directory
+        run: python3 tests/installer.py dist/*-UNNOTARIZED-preview.zip "$(cat VERSION)"
       - name: Publish version from VERSION
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           version="$(cat VERSION)"
-          gh release create "v$version" dist/*.dmg dist/*.zip dist/SHA256SUMS.txt dist/release-manifest.json dist/INSTALL.txt --target "$GITHUB_SHA" --title "Study Glass $version — macOS Universal (공증 전 시험판)" --notes-file docs/release-notes.md --prerelease
+          gh release create "v$version" dist/*.dmg dist/*.zip dist/*.command dist/SHA256SUMS.txt dist/release-manifest.json dist/INSTALL.txt --target "$GITHUB_SHA" --title "Study Glass $version — macOS Universal (공증 전 시험판)" --notes-file docs/release-notes.md --prerelease

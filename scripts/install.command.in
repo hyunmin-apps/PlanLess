@@ -1,0 +1,71 @@
+#!/bin/bash
+# Study Glass installer. Generated with a pinned release URL and SHA-256.
+set -euo pipefail
+VERSION='@VERSION@'
+ARCHIVE='@ARCHIVE@'
+EXPECTED_SHA256='@SHA256@'
+URL="https://github.com/hyunmin-apps/StudyGlass/releases/download/v${VERSION}/${ARCHIVE}"
+APP_DIR="${HOME}/Applications"
+DEST="${APP_DIR}/Study Glass.app"
+WORK=''
+STAGE=''
+BACKUP=''
+INSTALLED=0
+cleanup() {
+  result=$?
+  if [ "$result" -ne 0 ] && [ "$INSTALLED" -eq 0 ] && [ -n "$BACKUP" ] && [ ! -e "$DEST" ]; then
+    /bin/mv "$BACKUP/Study Glass.app" "$DEST" || true
+  fi
+  [ -z "$WORK" ] || /bin/rm -rf "$WORK"
+  [ -z "$STAGE" ] || /bin/rm -rf "$STAGE"
+  if [ "$result" -ne 0 ]; then printf '\n설치 중단: 위 오류를 확인하세요.\n' >&2; fi
+}
+trap cleanup EXIT
+trap 'exit 130' INT TERM
+printf '\nStudy Glass %s 설치\n\n' "$VERSION"
+printf 'Apple 공증 전 시험판입니다.\n공식 배포 ZIP의 SHA-256 및 앱 서명 구조를 검사한 뒤 설치합니다.\n'
+printf '설치 위치: %s\n' "$DEST"
+printf 'Study Glass 앱에만 다운로드 격리 속성을 제거합니다.\n이 조치는 공증을 대신하지 않으며, Mac 전체 보안 설정은 바꾸지 않습니다.\n'
+printf '기존 앱은 백업하고 공부 기록은 유지합니다. 실행 중인 앱은 먼저 종료하세요.\n\n'
+printf '이 변경에 동의하고 설치할까요? [y/N] '
+IFS= read -r answer || exit 0
+case "$answer" in y|Y) ;; *) printf '취소했습니다.\n'; exit 0 ;; esac
+[ "$(/usr/bin/uname -s)" = Darwin ] || { printf 'macOS 전용입니다.\n' >&2; exit 1; }
+os_version=$(/usr/bin/sw_vers -productVersion)
+[ "${os_version%%.*}" -ge 14 ] || { printf 'macOS 14 이상이 필요합니다.\n' >&2; exit 1; }
+if /usr/bin/pgrep -x StudyGlass >/dev/null; then
+  printf 'Study Glass를 종료한 뒤 다시 실행하세요.\n' >&2; exit 1
+fi
+WORK=$(/usr/bin/mktemp -d "${TMPDIR:-/tmp}/studyglass-download.XXXXXX")
+printf '\n공식 배포 파일 다운로드…\n'
+/usr/bin/curl --fail --location --proto '=https' --tlsv1.2 --retry 2 --output "$WORK/app.zip" "$URL"
+actual=$(/usr/bin/shasum -a 256 "$WORK/app.zip")
+[ "${actual%% *}" = "$EXPECTED_SHA256" ] || { printf '해시 불일치: 설치하지 않았습니다.\n' >&2; exit 1; }
+/usr/bin/ditto -x -k "$WORK/app.zip" "$WORK/unpacked"
+SOURCE="$WORK/unpacked/Study Glass.app"
+[ -d "$SOURCE" ] && [ ! -L "$SOURCE" ] || { printf '앱이 누락되었습니다.\n' >&2; exit 1; }
+[ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$SOURCE/Contents/Info.plist")" = local.studyglass.desktop ]
+[ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$SOURCE/Contents/Info.plist")" = "$VERSION" ]
+/usr/bin/codesign --verify --deep --strict "$SOURCE"
+/bin/mkdir -p "$APP_DIR"
+[ ! -L "$DEST" ] || { printf '설치 위치가 심볼릭 링크입니다. 직접 확인하세요.\n' >&2; exit 1; }
+if [ -e "$DEST" ]; then
+  [ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$DEST/Contents/Info.plist")" = local.studyglass.desktop ] || { printf '같은 이름의 다른 앱이 있습니다.\n' >&2; exit 1; }
+fi
+STAGE=$(/usr/bin/mktemp -d "$APP_DIR/.studyglass-stage.XXXXXX")
+/usr/bin/ditto "$SOURCE" "$STAGE/Study Glass.app"
+# Only this newly verified app bundle; never change global Gatekeeper settings.
+/usr/bin/xattr -r -d com.apple.quarantine "$STAGE/Study Glass.app"
+/usr/bin/codesign --verify --deep --strict "$STAGE/Study Glass.app"
+if [ -e "$DEST" ]; then
+  BACKUP=$(/usr/bin/mktemp -d "$APP_DIR/StudyGlass-backup.XXXXXX")
+  /bin/mv "$DEST" "$BACKUP/Study Glass.app"
+fi
+/bin/mv "$STAGE/Study Glass.app" "$DEST"
+INSTALLED=1
+printf '\n설치 완료: %s\n' "$DEST"
+[ -z "$BACKUP" ] || printf '이전 앱 백업: %s\n' "$BACKUP"
+printf '바탕화면 우클릭 → 위젯 편집 → Study Glass에서 위젯을 추가하세요.\n'
+if ! /usr/bin/open "$DEST"; then
+  printf '설치는 완료했지만 실행에 실패했습니다. Finder에서 앱을 확인하세요.\n' >&2
+fi

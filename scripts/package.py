@@ -34,6 +34,11 @@ if a.notary_profile:
  run('xcrun','stapler','validate',dist/(name+'.dmg'))
 (dist/'INSTALL.txt').write_text(guide)
 assets=[dist/(name+'.zip'),dist/(name+'.dmg'),dist/'INSTALL.txt']
+if not a.notary_profile:
+ installer=dist/f'StudyGlass-{version}-Install.command'
+ template=(ROOT/'scripts/install.command.in').read_text()
+ template=template.replace('@VERSION@',version).replace('@ARCHIVE@',name+'.zip').replace('@SHA256@',hashlib.sha256((dist/(name+'.zip')).read_bytes()).hexdigest())
+ installer.write_text(template);installer.chmod(0o755);assets.append(installer)
 manifest=[{'file':p.name,'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in assets]
 (dist/'SHA256SUMS.txt').write_text(''.join(x['sha256']+'  '+x['file']+'\n' for x in manifest))
 (dist/'release-manifest.json').write_text(json.dumps({'version':version,'architectures':['arm64','x86_64'],'minimum_macos':'14.0','signing':'Developer ID; notarized and stapled' if a.notary_profile else 'ad-hoc; NOT notarized','gatekeeper':{'accepted':assessment.returncode==0,'output':assessment.stderr.strip().replace(str(app),'Study Glass.app')},'assets':manifest},indent=2)+'\n')
