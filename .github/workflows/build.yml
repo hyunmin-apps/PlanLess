@@ -21,6 +21,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: node tests/import-plan.cjs
       - run: node tests/bulk-delete.cjs
+      - run: node tests/rollover.cjs
       - run: python3 tests/widget_model.py
       - run: ./build.sh --arch ${{ matrix.arch }}
       - run: python3 tests/verify.py 'build/${{ matrix.arch }}/Study Glass.app' ${{ matrix.arch }}

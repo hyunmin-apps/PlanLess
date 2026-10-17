@@ -70,6 +70,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKScriptMessageHandler
   window.level = enabled ? NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.desktopIconWindow))+1) : .normal
   window.collectionBehavior = enabled ? [.canJoinAllSpaces,.stationary] : []
  }
+ func applicationDidBecomeActive(_ notification: Notification) {
+  if loaded {web.evaluateJavaScript("refreshRollover()")}
+ }
  func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {true}
 }
 let app = NSApplication.shared

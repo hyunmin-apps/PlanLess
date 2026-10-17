@@ -7,7 +7,7 @@ func widgetState()->[String:Any] {
  let u=URL(fileURLWithPath:NSHomeDirectory()).appendingPathComponent("Documents/study-state.json")
  guard let d=try? Data(contentsOf:u),let s=try? JSONSerialization.jsonObject(with:d) as? [String:Any] else {return [:]};return s
 }
-func plans() -> [DayPlan] {
+func plans(today:String = dayKey(Date())) -> [DayPlan] {
  let state=widgetState();let statuses=state["status"] as? [String:Int] ?? [:];let extras=state["extra"] as? [String:[[String:Any]]] ?? [:]
 
  guard let url = Bundle.main.url(forResource:"plan",withExtension:"json"),let data = try? Data(contentsOf:url),let rows = try? JSONSerialization.jsonObject(with:data) as? [[Any]] else {return []}
@@ -21,12 +21,22 @@ func plans() -> [DayPlan] {
  }
  let edits=state["edits"] as? [String:[String:String]] ?? [:]
  let deleted=state["deleted"] as? [String:Bool] ?? [:]
- return result.map { day in
+ let projected = result.map { day in
   DayPlan(id:day.id,goals:day.goals.filter { deleted[$0.id] != true }.map { goal in
    let edit=edits[goal.id] ?? [:]
    return Goal(id:goal.id,subject:edit["subject"] ?? goal.subject,title:edit["title"] ?? goal.title,status:goal.status)
   })
- }.sorted{$0.id<$1.id}
+ }
+ var grouped:[String:[Goal]] = [:]
+ var seen=Set<String>()
+ for day in projected.sorted(by:{$0.id>$1.id}) {
+  for goal in day.goals {
+   let date = day.id < today && goal.status == 1 ? today : day.id
+   guard seen.insert(goal.id).inserted else {continue}
+   grouped[date,default:[]].append(goal)
+  }
+ }
+ return grouped.keys.sorted().map {DayPlan(id:$0,goals:grouped[$0]!)}
 }
 func dayKey(_ date: Date) -> String {let f=DateFormatter();f.calendar=Calendar(identifier:.gregorian);f.dateFormat="yyyy-MM-dd";return f.string(from:date)}
 func subjectTint(_ subject:String) -> Color {
@@ -44,7 +54,12 @@ struct Entry: TimelineEntry {let date:Date;let days:[DayPlan];var selected:DayPl
 struct Provider: TimelineProvider {
  func placeholder(in context:Context)->Entry {Entry(date:Date(),days:plans())}
  func getSnapshot(in context:Context,completion:@escaping(Entry)->Void){completion(Entry(date:Date(),days:plans()))}
- func getTimeline(in context:Context,completion:@escaping(Timeline<Entry>)->Void){let now=Date();completion(Timeline(entries:[Entry(date:now,days:plans())],policy:.after(Calendar.current.startOfDay(for:now).addingTimeInterval(86400))))}
+ func getTimeline(in context:Context,completion:@escaping(Timeline<Entry>)->Void){
+  let now=Date(),calendar=Calendar.current
+  let dates=[now]+(1...7).compactMap{calendar.date(byAdding:.day,value:$0,to:calendar.startOfDay(for:now))}
+  let entries=dates.map{Entry(date:$0,days:plans(today:dayKey($0)))}
+  completion(Timeline(entries:entries,policy:.atEnd))
+ }
 }
 struct GoalRow:View {
  let goal:Goal

@@ -1,12 +1,12 @@
 ## 설치
 
-**[설치 파일 다운로드](https://github.com/hyunmin-apps/StudyGlass/releases/download/v1.0.2/StudyGlass-1.0.2-Install.command)** — 이 파일 하나만 받으세요.
+**[설치 파일 다운로드](https://github.com/hyunmin-apps/StudyGlass/releases/download/v1.0.3/StudyGlass-1.0.3-Install.command)** — 이 파일 하나만 받으세요.
 
 1. 편집 중인 내용은 먼저 저장합니다. 실행 중인 앱은 설치기가 자동 종료합니다.
 2. 받은 파일을 다운로드 폴더에 두고 터미널에서 아래 한 줄을 실행합니다.
 
 ```bash
-/bin/bash "$HOME/Downloads/StudyGlass-1.0.2-Install.command"
+/bin/bash "$HOME/Downloads/StudyGlass-1.0.3-Install.command"
 ```
 
 3. 안내를 확인하고 `y`를 입력하면 설치와 앱 실행이 진행됩니다.
@@ -15,7 +15,7 @@ macOS 14 이상 · Apple Silicon / Intel 공용. 기존 할 일과 체크 기록
 
 **Apple 공증 전 시험판입니다.** 동의하면 Study Glass 앱에만 격리 속성을 제거합니다. 시스템 전체 보안 설정은 변경하지 않습니다.
 
-## 1.0.2 변경
+## 1.0.3 변경
 
 - 설치에 동의하면 실행 중인 Study Glass를 자동 종료하고, 응답하지 않으면 강제 종료한 뒤 업데이트합니다. 같은 사용자 소유이며 Study Glass 앱으로 확인된 프로세스만 종료합니다.
 - 저장하지 않은 편집 내용은 종료 시 사라질 수 있으니 먼저 저장하세요.
@@ -28,3 +28,5 @@ macOS 14 이상 · Apple Silicon / Intel 공용. 기존 할 일과 체크 기록
 Assets의 ZIP은 설치 스크립트가 자동으로 받는 앱 파일입니다. 직접 다운로드할 필요 없습니다.
 
 빨간 ×로 선택한 날 또는 표시 중인 주의 할 일을 전체 삭제할 수 있습니다. 삭제 전 날짜 범위와 개수를 확인하며, 취소하면 그대로 유지됩니다.
+
+진행 중(◐)인 할 일은 날짜가 지나면 오늘로 자동 이동합니다. 미시작·통과·삭제 항목과 미래 계획은 이동하지 않습니다. 앱 재실행·날짜 변경 시 반영되며 위젯도 같은 기준으로 표시합니다.

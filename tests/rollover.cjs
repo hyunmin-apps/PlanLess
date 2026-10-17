@@ -1,0 +1,6 @@
+const assert=require('node:assert/strict');const {StudyRollover:roll}=require('../Resources/rollover.js');
+const s={extra:{'2026-10-12':[{id:'active',detail:'keep'},{id:'done'},{id:'new'},{id:'deleted'}],'2026-10-17':[{id:'today'}],'2026-10-18':[{id:'future'}]},status:{active:1,done:2,deleted:1,future:1},deleted:{deleted:true},edits:{active:{title:'edited'}}};
+assert(roll(s,'2026-10-17'));assert.deepEqual(s.extra['2026-10-17'].map(t=>t.id),['today','active']);assert.equal(s.extra['2026-10-12'].length,3);assert.equal(s.extra['2026-10-18'].length,1);assert.equal(s.extra['2026-10-17'][1].detail,'keep');assert.equal(s.edits.active.title,'edited');assert(!roll(s,'2026-10-17'));
+assert(roll(s,'2026-10-18'));assert.equal(s.extra['2026-10-18'].filter(t=>t.id==='active').length,1);s.status.active=2;roll(s,'2026-10-19');assert(s.extra['2026-10-18'].some(t=>t.id==='active'));assert.equal(s.extra['2026-10-19'][0].id,'future');assert(!roll(s,'2026-10-10'));
+for(const [from,to] of [['2026-12-31','2027-01-01'],['2028-02-29','2028-03-01']]){const v={extra:{[from]:[{id:'x'}]},status:{x:1}};assert(roll(v,to));assert.equal(v.extra[to].length,1)}
+console.log('PASS: overdue active only, multi-day gap, idempotence, completion, deletion, edits, future tasks, month/year boundaries');

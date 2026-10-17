@@ -4,7 +4,8 @@ import pathlib,subprocess,tempfile,json
 root=pathlib.Path(__file__).resolve().parents[1]
 s=(root/'Widget/StudyWidget.swift').read_text()
 s=s[s.index('struct Goal:'):s.index('func dayKey(')]
-start=s.index('func widgetState()');end=s.index('func plans()',start)
+s=s.replace('today:String = dayKey(Date())', 'today:String = "2026-10-12"')
+start=s.index('func widgetState()');end=s.index('func plans(',start)
 s=s[:start]+'''func widgetState()->[String:Any] {
  let data=try! Data(contentsOf:URL(fileURLWithPath:CommandLine.arguments[2]))
  return try! JSONSerialization.jsonObject(with:data) as! [String:Any]
@@ -29,4 +30,9 @@ with tempfile.TemporaryDirectory(prefix='studyglass-widget-test-') as d:
  (p/'plan.json').write_text('[]');fixture={}
  (p/'state.json').write_text('{}')
  assert json.loads(subprocess.check_output([str(p/'test'),str(root/'Resources/plan.json'),str(p/'state.json')],text=True))==[]
+ fixture={'extra':{'2026-10-10':[{'id':'move','subject':'수학','title':'진행'},{'id':'done','title':'완료'},{'id':'idle','title':'미시작'}]},'status':{'move':1,'done':2}}
+ (p/'state.json').write_text(json.dumps(fixture))
+ days=json.loads(subprocess.check_output([str(p/'test'),str(root/'Resources/plan.json'),str(p/'state.json')],text=True))
+ assert [g['id'] for g in days[0]['goals']]==['done','idle']
+ assert days[1]['id']=='2026-10-12' and days[1]['goals'][0]['id']=='move'
  print('PASS: widget legacy state, edited default/custom goals, deletion and status preservation')
