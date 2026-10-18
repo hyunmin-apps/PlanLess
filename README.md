@@ -1,114 +1,263 @@
-# PlanLess — 계획은 가볍게, 실천은 바로
+<div align="center">
 
-> 로컬 작업 인계: [HANDOFF-next-session.md](HANDOFF-next-session.md). 현재 소스·설치판은 PlanLess 1.1.2이며 프로젝트는 `/Users/kanghyunmin/Desktop/PlanLess`에 있습니다. 아래 공개 설치 링크는 이름 변경 전의 이전 배포판입니다.
+<img src="Resources/AppIcon.iconset/icon_128x128@2x.png" width="76" height="76" alt="플래너와 연필을 든 PlanLess 레서판다 아이콘">
 
-<img src="Resources/AppIcon.png" width="128" alt="PlanLess 아이콘">
+# PlanLess
 
-**계획에 쓰는 시간을 줄이고(Less), 지금 할 일을 바로 시작하도록 돕는 macOS 앱입니다.** 이름은 Plan + Less에서 왔습니다. 계획을 단순하게 만들고, 오늘 할 일을 하나씩 실천합니다. **한 주의 일차별 목표를 펼쳐 보고, 날짜를 눌러 하루에 집중**합니다. 과목별 색상과 다크 모드, macOS 바탕화면 위젯을 제공합니다. 계정이나 외부 서버 없이 Mac에 저장합니다.
+**계획은 가볍게, 실천은 바로.**
 
-[다운로드](https://github.com/hyunmin-apps/PlanLess/releases) · [버그 제보](https://github.com/hyunmin-apps/PlanLess/issues) · [MIT 라이선스](LICENSE)
+<p>
+  <a href="#start">시작하기</a> &nbsp; / &nbsp;
+  <a href="#companions">레서 만나기</a> &nbsp; / &nbsp;
+  <a href="#explore">기능 둘러보기</a> &nbsp; / &nbsp;
+  <a href="#build">직접 빌드하기</a>
+</p>
 
-## 다운로드와 설치
+<a href="#explore">
+  <picture>
+    <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="docs/readme/hero-mobile-dark.svg">
+    <source media="(max-width: 600px)" srcset="docs/readme/hero-mobile-light.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/readme/hero-dark.svg">
+    <img src="docs/readme/hero-light.svg" width="1200" alt="Plan less. Do more. 계획단장 레서와 세 가지 예시 할 일을 담은 움직이는 사용 흐름 일러스트. 눌러서 기능 소개로 이동합니다.">
+  </picture>
+</a>
 
-PlanLess 1.1.2는 로컬 빌드·설치판이며 아직 새 이름으로 공개 배포하지 않았습니다. 아래 v1.0.3은 **Study Glass라는 이전 이름의 배포본**입니다. 현재 로컬 설치판을 이 파일로 덮어쓰지 마세요.
+<p>
+<code>macOS 14+</code> &nbsp; <code>Apple Silicon + Intel</code><br>
+<code>기기 내 저장</code> &nbsp; <code>소스 v1.1.2</code>
+</p>
 
-**[설치 스크립트 다운로드](https://github.com/hyunmin-apps/PlanLess/releases/download/v1.0.3/StudyGlass-1.0.3-Install.command)**
+<sub>위 이미지는 예시 할 일로 구성한 소개 일러스트입니다. 캐릭터는 실제 앱의 승인된 프레임을 사용합니다.</sub>
 
-실행하고 안내에 동의하면 공식 ZIP의 SHA-256 및 서명 구조를 확인한 뒤 `~/Applications`에 설치하고 **Study Glass에만 격리 해제**를 적용합니다. 기존 앱은 ZIP으로 백업하고 교체하며, 직접 추가한 기록은 유지합니다. 관리자 암호는 필요하지 않습니다.
+</div>
 
-받은 파일을 **다운로드 폴더에 둔 상태로**, 터미널에 아래 한 줄 전체를 복사해 실행하세요. `$HOME`이 현재 사용자 폴더를 자동으로 가리키므로 사용자 이름을 바꿀 필요가 없습니다.
+<br>
+
+## 계획을 더 만드는 대신, 하나를 시작하기
+
+**Plan + Less.** 해야 할 일을 날짜에 놓고, 지금 할 것 하나를 고르고, 끝냈다면 체크하세요.<br>
+복잡한 설정 없이 빈 계획으로 시작하는 작은 macOS 플래너입니다.
+
+<table>
+<tr>
+<td width="33%" valign="top">
+
+**01 / 오늘만큼은 가볍게**
+
+하루에 집중하거나 한 주를 펼쳐 보세요. 자세한 내용은 필요할 때만 열면 됩니다.
+
+</td>
+<td width="33%" valign="top">
+
+**02 / 시작은 작은 체크로**
+
+미시작 → 진행 중 → 완료.<br>
+지난날의 진행 중 목표는 오늘로 이어집니다.
+
+</td>
+<td width="33%" valign="top">
+
+**03 / 레서는 곁에**
+
+함께 집중하고, 끝내면 축하합니다. 앱 창을 닫아도 상단바에서 만날 수 있어요.
+
+</td>
+</tr>
+</table>
+
+<a name="companions"></a>
+
+## 혼자 하는 일에도, 작은 응원
+
+앱과 작은 창, 바탕화면 모드, 상단바에서 함께하는 두 레서.<br>
+진행 중인 목표가 있으면 계속 응원하고, 쉬는 동안에는 포인터 쪽으로 시선을 옮깁니다.
+
+<table>
+<tr>
+<td width="50%" align="center">
+
+<img src="design/lesser-motion-v8/planner-working/preview.gif" width="164" height="164" alt="안경과 청록 스카프를 한 계획단장 레서가 연필과 계획표를 들고 응원하는 동작">
+
+**계획단장 레서**
+
+연필 하나, 계획표 하나.<br>
+차근차근 시작하는 날의 단짝.
+
+</td>
+<td width="50%" align="center">
+
+<img src="design/lesser-motion-v8/passion-working/preview.gif" width="164" height="164" alt="빨간 머리띠와 방망이를 든 열정 레서가 불꽃과 함께 응원하는 동작">
+
+**열정 레서**
+
+조금 더 힘내고 싶은 순간.<br>
+작은 한 걸음에도 힘껏 응원해요.
+
+</td>
+</tr>
+</table>
+
+<details>
+<summary><b>끝냈어요! — 레서의 완료 축하 펼쳐 보기</b></summary>
+
+<br>
+<div align="center">
+<img src="design/lesser-motion-v8/planner-complete/preview.gif" width="164" height="164" alt="계획단장 레서의 점프와 초록 체크 완료 동작">
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="design/lesser-motion-v8/passion-complete/preview.gif" width="164" height="164" alt="열정 레서의 점프와 폭죽 완료 동작">
+</div>
+
+새 목표가 완료되면 **1.5초짜리 축하를 정확히 5회**, 총 7.5초 재생합니다. 다른 목표를 진행 중이면 다시 응원으로, 없으면 대기로 돌아갑니다.
+
+<sub>위 GIF는 동작을 살펴보는 반복 미리보기입니다. 앱에서의 5회 재생 횟수를 나타내는 영상은 아닙니다.</sub>
+
+</details>
+
+<details>
+<summary><b>잠깐 쉬는 중 — 방향별 전신 포즈 살펴보기</b></summary>
+
+<br>
+<div align="center">
+<img src="design/lesser-idle-tracking-v2/tracking-review.gif" width="560" alt="계획단장과 열정 레서의 방향별 전신 대기 포즈 비교">
+</div>
+
+얼굴만 따로 회전하지 않고 목·스카프·어깨가 이어진 전신 포즈를 사용합니다. 이 GIF는 방향별 포즈를 자동으로 보여주는 비교 자료입니다. 실제 포인터 반응은 앱·작은 창·상단바에서 동작합니다.
+
+</details>
+
+<a name="explore"></a>
+
+## 나에게 필요한 만큼만, 펼쳐 보세요
+
+<details open>
+<summary><b>하루에 집중하고, 한 주를 넓게 보기</b></summary>
+
+날짜를 눌러 그날의 목표에 집중하거나 **한 주 펼치기**로 월요일부터 일요일까지 살펴보세요. 과목 이름에 따라 앱과 위젯에 같은 색상을 표시합니다.
+
+과목·목표·세부 내용은 직접 추가하고 수정할 수 있습니다. 긴 지침은 접어 두었다가 필요할 때 펼치세요.
+
+</details>
+
+<details>
+<summary><b>미뤄진 진행 중 목표는 오늘로 이어가기</b></summary>
+
+날짜가 지난 **진행 중(◐)** 목표는 오늘로 자동 이동합니다. 미시작·완료·삭제한 항목과 미래 계획은 옮기지 않습니다. 앱 재실행·활성화·날짜 변경 때 같은 기준을 적용합니다.
+
+목표의 ID와 수정 내용, 상태를 유지하므로 이어서 진행하면 됩니다.
+
+</details>
+
+<details>
+<summary><b>앱·상단바·바탕화면, 편한 자리에서 체크하기</b></summary>
+
+앱을 작게 줄이거나 다른 창 위에 고정하고, 바탕화면 모드로 둘 수 있습니다. 상단바 레서에서도 캐릭터와 목표를 고르고 진행·완료를 누를 수 있어요.
+
+**정식 macOS WidgetKit 위젯**은 하루 목표 소·중·대와 주간 목표 대를 제공합니다. 체크를 누르면 앱을 열어 목표 상태를 바꿉니다.
+
+시스템 위젯은 대표 정지 이미지를 표시합니다. 연속 애니메이션·포인터 추적은 앱과 상단바에서 동작하며, 시스템 위젯의 갱신 시점은 macOS가 결정합니다.
+
+</details>
+
+<details>
+<summary><b>AI가 정리한 계획은 붙여넣어 한 번에 등록하기</b></summary>
+
+1. 앱에서 **AI 계획 → 입력 양식 → 양식 복사**를 누릅니다.
+2. GPT·Claude 등에 계획을 요청하면서 양식을 함께 전달합니다.
+3. 받은 JSON을 붙여넣고 **미리보기 → 등록**을 누릅니다.
+
+날짜·필수 항목·길이를 확인하고, 날짜·과목·제목·세부 내용이 같은 항목은 건너뜁니다. 기존 계획은 유지됩니다.
+
+앱이 직접 AI를 호출하거나 계획을 외부로 보내지는 않습니다.
+
+</details>
+
+<details>
+<summary><b>내 기록은 내 Mac에 — 계정 없이 쓰기</b></summary>
+
+로그인·광고·분석 수집·클라우드 동기화 없이 기기 안에 저장합니다. 처음 실행하면 빈 계획으로 시작합니다.
+
+이름 변경 후에도 기존 기록이 이어지도록 저장 경로와 앱·위젯의 영구 식별자를 유지합니다. 앱을 업데이트하거나 삭제해도 사용자 기록을 자동으로 지우지 않습니다.
+
+[저장 위치와 백업 안내](docs/installation.md#data)
+
+</details>
+
+<a name="start"></a>
+
+## 시작하기
+
+| 지금 원하는 것 | 바로가기 |
+| :-- | :-- |
+| **새 이름과 레서판다 아이콘이 있는 최신 소스** | [PlanLess 1.1.2 직접 빌드](#build) |
+| 기존 공개 설치판을 내려받기 | [v1.0.3 릴리스 — 이전 이름 Study Glass](https://github.com/hyunmin-apps/PlanLess/releases/tag/v1.0.3) |
+| 설치 과정·첫 실행·기록 백업 확인하기 | [설치 안내](docs/installation.md) |
+
+> [!IMPORTANT]
+> **소스는 PlanLess 1.1.2, 공개 설치판은 Study Glass 1.0.3입니다.** 새 이름과 레서 아이콘이 들어간 설치 파일은 아직 공개 릴리스하지 않았습니다. 최신 로컬 설치판을 이전 공개 설치기로 덮어쓰지 마세요.
+
+<details>
+<summary><b>기존 공개 설치판(v1.0.3) 설치 방법</b></summary>
+
+[StudyGlass-1.0.3-Install.command 받기](https://github.com/hyunmin-apps/PlanLess/releases/download/v1.0.3/StudyGlass-1.0.3-Install.command)
+
+다운로드 폴더에 둔 뒤 아래 **한 줄 전체**를 실행합니다.
 
 ```bash
 /bin/bash "$HOME/Downloads/StudyGlass-1.0.3-Install.command"
 ```
 
-안내를 읽고 `y`를 입력하면 설치가 진행됩니다. `/bin/bash`만 먼저 실행하지 말고 **파일 경로까지 같은 줄로 실행**하세요. 파일이 다른 폴더에 있거나 이름 뒤에 `(1)` 등이 붙었다면 실제 파일 경로에 맞춰야 합니다.
+안내를 확인하고 `y`를 입력하면 공식 ZIP의 SHA-256과 서명 구조를 검사한 후 `~/Applications`에 설치합니다. 해당 앱에만 다운로드 격리 해제를 적용하며 관리자 암호는 필요하지 않습니다.
 
-**공증을 대체하지 않으며 설치자가 스크립트를 실행하는 단계는 필요합니다.** `/Applications`의 기존 앱은 자동 삭제하지 않습니다.
+**Apple 공증 전 시험판입니다.** 실행 중인 앱은 종료하므로 편집 내용을 먼저 저장하세요. 이전 앱은 압축 백업하고 기록은 유지합니다. [자세한 설치 안내](docs/installation.md)
 
-**설치 파일은 `.command` 하나만 받으면 됩니다.** 릴리스의 ZIP은 설치 스크립트가 자동 다운로드하는 앱 파일입니다. DMG와 별도 안내·검증 파일은 배포 페이지에 올리지 않습니다. `Source code`는 GitHub가 자동 표시하는 개발용 소스입니다.
+</details>
 
-업데이트할 때 실행 중인 Study Glass는 자동 종료하며, 3초 후에도 남아 있으면 강제 종료합니다. 편집 중인 내용은 먼저 저장하세요. 설치 스크립트는 공식 ZIP의 고정 SHA-256과 서명 구조를 확인합니다.
+<a name="build"></a>
 
-## 기능
+## 직접 빌드하기
 
-- 하루 보기 / 한 주 펼치기 / 이전·다음 주 / 오늘 이동.
-- 과목명과 하루 목표 추가·수정·삭제. 같은 과목명은 앱과 위젯에서 같은 색상으로 표시.
-- 미시작 → 학습 → 통과 → 미시작 순서의 체크와 자동 저장.
-- 상세 지침을 필요할 때만 펼치는 다크 화면.
-- macOS 정식 WidgetKit 위젯: 하루 목표 소·중·대, 주간 목표 대.
-- 작은 앱 창·다른 창 위 고정은 정식 위젯과 별도로 제공.
-- 로컬 1.1.2: 앱·작은 창·바탕화면 모드와 상단바에 레서. 완료 5회 축하, 진행 중 연속 동작, 대기 시 포인터 방향별 전신 자세. 캐릭터·목표를 고르고 진행/완료를 누를 수 있습니다.
+macOS 14 이상, Xcode Command Line Tools 또는 Xcode, Python 3이 필요합니다.
 
-처음 설치하면 빈 계획으로 시작합니다. 직접 목표를 추가하거나 AI 결과를 가져오세요. 업데이트는 직접 추가·가져온 계획을 유지합니다. 이전 버전에 내장된 예제 계획은 더 이상 표시하지 않습니다.
+```sh
+git clone https://github.com/hyunmin-apps/PlanLess.git
+cd PlanLess
+./build.sh
+open 'build/universal/PlanLess.app'
+```
 
-## 지원과 검증 범위
+Apple Silicon·Intel을 함께 담은 Universal 앱과 위젯을 만듭니다. 사용 중인 설치 앱을 자동 교체하지 않습니다.
+
+<details>
+<summary><b>지원 범위와 실제 검증 결과</b></summary>
 
 | 항목 | 범위 |
-| --- | --- |
-| Apple Silicon | Universal arm64 바이너리, 개발 Mac에서 앱과 위젯 UI 실행 확인 |
-| Intel | Universal x86_64 바이너리 포함. CI 결과는 아래 링크 참조. 실제 Intel Mac 위젯 배치 검증은 별도 필요 |
-| 최소 OS | macOS 14.0. 최소 버전 실기기 검증은 아직 하지 않음 |
-| 서명 | 로컬 ad-hoc 서명. Developer ID·공증 없음 |
+| :-- | :-- |
+| Apple Silicon | 개발 Mac에서 앱·상단바·WidgetKit 실행 확인 |
+| Intel | x86_64 바이너리 포함. 실제 Intel Mac 위젯 배치는 미확인 |
+| 최소 OS | macOS 14.0. 최소 버전 실기기 검증은 미실시 |
+| 서명 | 로컬 ad-hoc. Developer ID·Apple 공증 없음 |
+| 시스템 위젯 | 대표 정지 이미지·앱 연결 체크. 갱신 시점은 macOS 정책에 따름 |
 
-[빌드와 실행 CI](https://github.com/hyunmin-apps/PlanLess/actions/workflows/build.yml) · [검증 기록](docs/verification.md)
+[빌드 기록](https://github.com/hyunmin-apps/PlanLess/actions/workflows/build.yml) · [검증 범위](docs/verification.md) · [이름·아이콘 변경 검증](docs/rename-verification.json)
 
-위젯은 오늘 또는 가장 가까운 예정일을 표시합니다. 주간 위젯은 해당 날짜가 속한 월~일을 표시하며, 작은 크기에서는 내용이 요약됩니다. 앱 변경 사항은 위젯 갱신 시 반영되므로 즉시 표시를 보장하지 않습니다. 로컬 1.1.2의 시스템 위젯 체크는 앱을 열어 상태를 바꿉니다. 상시 애니메이션·포인터 추적은 앱의 기존 바탕화면/작은 창과 상단바에서 동작하며, 시스템 WidgetKit 위젯은 대표 이미지를 표시합니다. 위젯에서 주를 넘기는 기능은 없습니다.
+</details>
 
-## 데이터와 개인정보
+[개발·테스트·배포 가이드](docs/development.md) &nbsp; · &nbsp; [변경 기록](CHANGELOG.md) &nbsp; · &nbsp; [로컬 작업 인계](HANDOFF-next-session.md)
 
-체크와 사용자 목표는 `~/Library/Application Support/StudyGlass/state.json`에 저장합니다. 앱이 위젯 전용 컨테이너의 `Documents/study-state.json`에 사본을 전달합니다. 로그인·광고·분석 수집·클라우드 동기화는 없습니다. 사용자의 실제 체크 상태와 메모는 소스나 설치 파일에 포함하지 않습니다.
+<br>
 
-업데이트 전 데이터 파일을 복사하면 백업할 수 있습니다. 앱을 교체해도 데이터 경로는 유지됩니다. 이름 변경 후에도 기존 목표와 환경설정·배치된 위젯을 보존하기 위해 `local.studyglass.desktop`, `local.studyglass.desktop.widget` 및 WidgetKit kind를 유지합니다. 새 링크는 `planless://`이며 기존 `studyglass://` 링크도 열립니다. 앱 삭제 시에는 바탕화면 위젯을 제거하고 앱을 휴지통으로 옮기세요. 사용자 데이터는 자동 삭제하지 않습니다.
+---
 
-## 소스 빌드
+<div align="center">
 
-macOS와 Xcode Command Line Tools 또는 Xcode, Python 3이 필요합니다. 다운로드 의존성 없이 Apple 시스템 프레임워크로 빌드합니다.
+<img src="Resources/Mascots/planner/idle/frame-05.png" width="64" height="64" alt="기다리고 있는 계획단장 레서">
 
-```sh
-./build.sh                       # arm64 + x86_64 Universal
-./build.sh --arch arm64          # Apple Silicon만
-./build.sh --arch x86_64         # Intel만
-python3 tests/verify.py 'build/universal/PlanLess.app'
-python3 scripts/package.py      # DMG, ZIP, SHA256SUMS, manifest
-```
+**계획을 잘 짜는 날보다, 하나를 시작하는 날이 많아지도록.**
 
-앱과 위젯을 각각 두 아키텍처로 컴파일하고 합친 뒤, 위젯 → 앱 순서로 서명합니다. `Widget/build-widget.sh`는 같은 전체 빌드를 호출하는 호환 명령입니다. 빌드는 사용 중인 설치 앱을 교체하지 않습니다.
+<sub>Made for small starts. Built for your Mac.</sub>
 
-## 배포
+<br><br>
 
-1. `VERSION`과 `CHANGELOG.md`를 갱신합니다.
-2. Universal 빌드와 검증 후 `scripts/package.py`를 실행합니다.
-3. CI의 Apple Silicon·Intel 결과를 확인합니다.
-4. 해당 커밋에 버전 태그를 붙이고 `dist/`의 설치 스크립트와 앱 ZIP만 GitHub Release에 올립니다. DMG·해시·manifest는 로컬 검증용으로 보관합니다.
+[버그 제보](https://github.com/hyunmin-apps/PlanLess/issues/new?template=bug_report.md) &nbsp; · &nbsp; [MIT License](LICENSE) &nbsp; · &nbsp; [아이콘 제작 기록](design/planless-icon/README.md)
 
-Developer ID 인증서와 Keychain의 notarytool 인증 프로필이 준비된 경우:
-
-```sh
-python3 scripts/notarize.py --identity 'Developer ID Application: NAME (TEAMID)' --keychain-profile planless-notary
-```
-
-이 경로는 hardened runtime과 timestamp를 사용해 위젯 → 앱 서명, Apple 공증, 티켓 부착, Gatekeeper 통과 확인, DMG 공증을 수행합니다. 공증 실패 시 패키징을 중단합니다. 현재 인증서가 없어 이 경로의 실제 Apple 공증 성공은 검증되지 않았습니다. GitHub의 배포 워크플로는 계속 시험판 전용입니다.
-
-정식 서명 및 공증을 도입하기 전에는 사전 릴리스로 배포하고, 실제 검증 범위와 미검증 항목을 릴리스 설명에 기재합니다.
-
-## 구성
-
-- `Sources/main.swift`: macOS 창, 로컬 저장, 위젯 데이터 전달, 날짜 링크.
-- `Resources/index.html`: 일별·주간 목표 화면.
-- `Resources/plan.json`: 기본 예제 계획의 단일 원본.
-- `Widget/PlanLessWidget.swift`: 정식 macOS 위젯.
-- `design/planless-icon/source.png`, `scripts/build-icon.py`: 계획단장 레서판다·플래너 아이콘 원본과 표준 크기 내보내기.
-- `scripts/`: Universal 빌드와 배포 파일 생성.
-
-날짜 중심 사용 흐름은 [todo mate](https://www.todomate.net/)와 [Things](https://culturedcode.com/things/features/)를 참고했습니다. 아이콘과 UI는 자체 작성했으며 해당 서비스의 리소스를 포함하지 않습니다.
-
-### AI 결과로 계획 등록
-
-앱 상단 **AI 계획 → 입력 양식 → 양식 복사**에서 형식을 복사하세요. GPT·Claude에 원하는 계획을 직접 요청하면서 양식을 함께 전달한 뒤, 받은 JSON을 앱에 붙여넣고 **미리보기 → 등록**을 누르면 날짜별 할 일이 추가됩니다.
-
-앱은 AI에 요청을 보내지 않습니다. 기존 계획은 유지하며 날짜·과목·제목·세부 내용이 같은 항목은 건너뜁니다. 등록한 항목도 수정·삭제할 수 있습니다.
-
-빨간 ×로 선택한 날 또는 표시 중인 주의 할 일을 전체 삭제할 수 있습니다. 삭제 전 날짜 범위와 개수를 확인하며, 취소하면 그대로 유지됩니다.
-
-진행 중(◐)인 할 일은 날짜가 지나면 오늘로 자동 이동합니다. 미시작·통과·삭제 항목과 미래 계획은 이동하지 않습니다. 앱 재실행·날짜 변경 시 반영되며 위젯도 같은 기준으로 표시합니다.
+</div>
