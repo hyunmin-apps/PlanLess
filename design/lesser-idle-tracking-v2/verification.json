@@ -1,0 +1,21 @@
+{
+  "approvedMotionByteIdentical": true,
+  "idleSize": [
+    80,
+    80
+  ],
+  "idleFrameCount": 24,
+  "noClippedEdges": true,
+  "uniformGroundY": 74,
+  "plannerBlinkKeepsGlasses": true,
+  "passionLeftSectorSharesModeratePose": true,
+  "appVersion": "1.1.0",
+  "architectures": [
+    "arm64",
+    "x86_64"
+  ],
+  "localPreviewZip": "dist/StudyGlass-1.1.0-local-preview.zip",
+  "zipSha256": "61370ab75e31ced76515237577015b37c6ab06f15eb73a220de8dff5c16c8d96",
+  "systemWidgetRuntimeVerified": false,
+  "installedAppReplaced": false
+}

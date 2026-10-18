@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 import json,pathlib,plistlib,subprocess,sys
 root=pathlib.Path(__file__).resolve().parents[1];app=pathlib.Path(sys.argv[1]);expected=set(sys.argv[2:]) or {'arm64','x86_64'}
-for relative in ['Contents/MacOS/StudyGlass','Contents/PlugIns/StudyGlassWidget.appex/Contents/MacOS/StudyGlassWidget']:
+for relative in ['Contents/MacOS/PlanLess','Contents/PlugIns/PlanLessWidget.appex/Contents/MacOS/PlanLessWidget']:
  binary=app/relative;arches=set(subprocess.check_output(['lipo','-archs',str(binary)],text=True).split());assert arches==expected,(binary,arches)
  for arch in expected:
   loads=subprocess.check_output(['otool','-arch',arch,'-L',str(binary)],text=True)
   assert '/Users/' not in '\n'.join(loads.splitlines()[1:]),'Non-portable dynamic library'
 subprocess.run(['codesign','--verify','--deep','--strict',str(app)],check=True)
-widget=app/'Contents/PlugIns/StudyGlassWidget.appex'
+widget=app/'Contents/PlugIns/PlanLessWidget.appex'
 with (widget/'Contents/Info.plist').open('rb') as f:info=plistlib.load(f)
 assert info['NSExtension']['NSExtensionPointIdentifier']=='com.apple.widgetkit-extension'
 assert info['LSMinimumSystemVersion']=='14.0'

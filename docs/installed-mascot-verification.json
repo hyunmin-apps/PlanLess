@@ -1,0 +1,39 @@
+{
+  "version": "1.1.1",
+  "installedApp": "/Users/kanghyunmin/Applications/Study Glass.app",
+  "backup": "/Users/kanghyunmin/Desktop/StudyGlass/build/update-backups/20261018-021949",
+  "preservedOriginalGoals": 300,
+  "testGoalRemoved": true,
+  "currentStateMirroredToWidget": true,
+  "actualMenuBarStartVerified": true,
+  "actualWidgetStartAndCompletionVerified": true,
+  "closeAndWidgetReopenSameProcessVerified": true,
+  "fullColorInAccentedWidgetVerified": true,
+  "completionSamples": [
+    {
+      "seconds": 0.22,
+      "state": "Study Glass 레서 · 완료 축하 1/5"
+    },
+    {
+      "seconds": 1.61,
+      "state": "Study Glass 레서 · 완료 축하 2/5"
+    },
+    {
+      "seconds": 3.0,
+      "state": "Study Glass 레서 · 완료 축하 3/5"
+    },
+    {
+      "seconds": 4.72,
+      "state": "Study Glass 레서 · 완료 축하 4/5"
+    },
+    {
+      "seconds": 6.14,
+      "state": "Study Glass 레서 · 완료 축하 5/5"
+    },
+    {
+      "seconds": 7.57,
+      "state": "Study Glass 레서 · 진행 중"
+    }
+  ],
+  "widgetUsesRepresentativeStill": true
+}

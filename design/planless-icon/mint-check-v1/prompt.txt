@@ -1,0 +1,8 @@
+Use case: logo-brand
+Asset type: production macOS application icon for PlanLess
+Primary request: A polished, exceptionally simple icon for “less time planning, start doing”. Replace the old calendar metaphor with a single confident checkmark.
+Subject: one bold, sculpted deep evergreen checkmark centered on a soft pale mint rounded-square macOS icon tile. The checkmark has generous rounded ends and an elegant upward gesture; no checklist or calendar. The reduced geometry conveys Less and the check conveys immediate action.
+Style: refined native macOS app icon, restrained softly dimensional material, precise clean silhouette, understated tactile ceramic/satin surface, premium calm productivity app. A gentle mint tonal gradient, subtle top-left light, minimal edge bevel, very subtle contact shadow. It must remain crisp and recognizable at 16–32 pixels.
+Composition: square image, straight-on and centered; one rounded-square tile fills about 84% of canvas width, with consistent transparent margins on all sides. Checkmark fills about 52% of tile width. Transparent pixels outside tile, no surrounding scene, no pedestal.
+Text: none.
+Constraints: only the tile and one checkmark; no lettering, no calendar, no notebook, no tiny detail, no extra symbols, no badges, no watermarks, no mockup perspective. Export-ready single icon on a truly transparent background.

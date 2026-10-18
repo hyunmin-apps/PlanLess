@@ -1,0 +1,64 @@
+{
+  "planner-idle": {
+    "size": [
+      128,
+      128
+    ],
+    "frames": 24,
+    "fps": 12,
+    "unchangedFromV5": true
+  },
+  "passion-idle": {
+    "size": [
+      128,
+      128
+    ],
+    "frames": 24,
+    "fps": 12,
+    "unchangedFromV5": true
+  },
+  "planner-working": {
+    "size": [
+      128,
+      128
+    ],
+    "frames": 24,
+    "fps": 12,
+    "uniquePoses": 24,
+    "VAbsentAtEnd": true,
+    "source": "exec-70a358af-0d99-4b8c-a251-0b39187391ab.png"
+  },
+  "planner-complete": {
+    "size": [
+      128,
+      128
+    ],
+    "frames": 24,
+    "fps": 12,
+    "uniquePoses": 24,
+    "VAbsentAtEnd": true,
+    "source": "exec-4bc4f2a9-d436-4a88-b218-26c18f11b5bb.png"
+  },
+  "passion-working": {
+    "size": [
+      128,
+      128
+    ],
+    "frames": 24,
+    "fps": 12,
+    "uniquePoses": 24,
+    "VAbsentAtEnd": true,
+    "source": "exec-bd57eeba-7e54-4a51-86f2-63d1b432f077.png"
+  },
+  "passion-complete": {
+    "size": [
+      128,
+      128
+    ],
+    "frames": 24,
+    "fps": 12,
+    "uniquePoses": 24,
+    "VAbsentAtEnd": true,
+    "source": "exec-9ac5c354-3fa8-4b09-bbdd-c04eb2029d2d.png"
+  }
+}

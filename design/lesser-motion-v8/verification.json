@@ -1,0 +1,175 @@
+{
+  "planner-working": {
+    "frames": 6,
+    "size": [
+      80,
+      80
+    ],
+    "colorsUsed": 25,
+    "binaryAlpha": true,
+    "transparentBorder": true,
+    "gifExactPixels": true,
+    "gifDurationsMs": [
+      280,
+      160,
+      300,
+      240,
+      280,
+      240
+    ],
+    "pxoCompositeMatchesPNG": true,
+    "pixeloramaReadAndExport": true,
+    "pixeloramaGIFDurationsMs": [
+      280,
+      170,
+      310,
+      240,
+      280,
+      240
+    ],
+    "pixeloramaGIFPixelsMatch": true,
+    "completionEffectPixels": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "manualContinuityReview": "continuity-review.md",
+    "sourceSHA256": "ce22175e3cdb5cbbeb23f6ec831c23a664f95c8677f25c63cdcc68b0c3a401cf"
+  },
+  "planner-complete": {
+    "frames": 6,
+    "size": [
+      80,
+      80
+    ],
+    "colorsUsed": 26,
+    "binaryAlpha": true,
+    "transparentBorder": true,
+    "gifExactPixels": true,
+    "gifDurationsMs": [
+      180,
+      160,
+      120,
+      280,
+      160,
+      600
+    ],
+    "pxoCompositeMatchesPNG": true,
+    "pixeloramaReadAndExport": true,
+    "pixeloramaGIFDurationsMs": [
+      180,
+      170,
+      120,
+      280,
+      170,
+      610
+    ],
+    "pixeloramaGIFPixelsMatch": true,
+    "completionEffectPixels": [
+      0,
+      28,
+      70,
+      67,
+      28,
+      0
+    ],
+    "manualContinuityReview": "continuity-review.md",
+    "sourceSHA256": "06396688b4957259fe086c3827dd7c281311bf6272091e3d9d2bba01a7139657"
+  },
+  "passion-working": {
+    "frames": 6,
+    "size": [
+      80,
+      80
+    ],
+    "colorsUsed": 20,
+    "binaryAlpha": true,
+    "transparentBorder": true,
+    "gifExactPixels": true,
+    "gifDurationsMs": [
+      260,
+      160,
+      140,
+      300,
+      200,
+      260
+    ],
+    "pxoCompositeMatchesPNG": true,
+    "pixeloramaReadAndExport": true,
+    "pixeloramaGIFDurationsMs": [
+      260,
+      170,
+      140,
+      310,
+      200,
+      260
+    ],
+    "pixeloramaGIFPixelsMatch": true,
+    "completionEffectPixels": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "manualContinuityReview": "continuity-review.md",
+    "sourceSHA256": "492b06201238015e2edd33599b8711d1f83c15f532c081addd4444206e52c15b"
+  },
+  "passion-complete": {
+    "frames": 6,
+    "size": [
+      80,
+      80
+    ],
+    "colorsUsed": 21,
+    "binaryAlpha": true,
+    "transparentBorder": true,
+    "gifExactPixels": true,
+    "gifDurationsMs": [
+      180,
+      160,
+      120,
+      280,
+      160,
+      600
+    ],
+    "pxoCompositeMatchesPNG": true,
+    "pixeloramaReadAndExport": true,
+    "pixeloramaGIFDurationsMs": [
+      180,
+      170,
+      120,
+      280,
+      170,
+      610
+    ],
+    "pixeloramaGIFPixelsMatch": true,
+    "completionEffectPixels": [
+      0,
+      0,
+      134,
+      178,
+      112,
+      0
+    ],
+    "manualContinuityReview": "continuity-review.md",
+    "sourceSHA256": "00718abebe249b8b47b1c996d859618a57cb5d0a715ffbe06308216b2156eed4"
+  },
+  "planner-idle": {
+    "unchangedFromV6": true,
+    "filesCompared": 27
+  },
+  "passion-idle": {
+    "unchangedFromV6": true,
+    "filesCompared": 27
+  },
+  "preview": {
+    "javascriptSyntax": true,
+    "browserInteractionExecuted": false,
+    "offlineDataEmbedded": true
+  }
+}

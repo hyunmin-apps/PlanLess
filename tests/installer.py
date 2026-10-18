@@ -6,7 +6,7 @@ Usage: python3 tests/installer.py path/to/release.zip VERSION
 import hashlib,pathlib,subprocess,sys,tempfile,shlex
 root=pathlib.Path(__file__).resolve().parents[1]
 archive=pathlib.Path(sys.argv[1]).resolve();version=sys.argv[2]
-with tempfile.TemporaryDirectory(prefix='studyglass-installer-test-') as directory:
+with tempfile.TemporaryDirectory(prefix='planless-installer-test-') as directory:
  p=pathlib.Path(directory);dest=p/'Applications';log=p/'opened'
  curl=p/'curl';curl.write_text('#!/bin/bash\nset -e\nwhile [ "$1" != --output ]; do shift; done\ncp '+shlex.quote(str(archive))+' "$2"\n');curl.chmod(0o755)
  opener=p/'open';opener.write_text('#!/bin/bash\nprintf "%s\\n" "$1" >> '+shlex.quote(str(log))+'\n');opener.chmod(0o755)
@@ -25,14 +25,14 @@ with tempfile.TemporaryDirectory(prefix='studyglass-installer-test-') as directo
  bad=p/'bad.command';bad.write_text(text.replace(hashlib.sha256(archive.read_bytes()).hexdigest(),'0'*64))
  r=run(bad,'y\n');assert r.returncode!=0 and not dest.exists(),r.stderr
  r=run(script,'y\n');assert r.returncode==0,r.stdout+r.stderr
- app=dest/'Study Glass.app';assert app.exists() and log.exists()
+ app=dest/'PlanLess.app';assert app.exists() and log.exists()
  subprocess.run(['/usr/bin/xattr','-w','com.apple.quarantine','0083;00000000;Test;',str(app)],check=True)
  r=run(script,'y\n');assert r.returncode==0,r.stdout+r.stderr
- assert not list(dest.glob('StudyGlass-backup.*/Study Glass.app'))
- assert len(list(dest.glob('StudyGlass-backup.*/StudyGlass-preserved.zip')))==1
+ assert not list(dest.glob('PlanLess-backup.*/PlanLess.app'))
+ assert len(list(dest.glob('PlanLess-backup.*/PlanLess-preserved.zip')))==1
  assert 'com.apple.quarantine' not in subprocess.check_output(['/usr/bin/xattr',str(app)],text=True)
  subprocess.run(['/usr/bin/codesign','--verify','--deep','--strict',str(app)],check=True)
- (p/'process-path').write_text(str(app/'Contents/MacOS/StudyGlass')+'\n')
+ (p/'process-path').write_text(str(app/'Contents/MacOS/PlanLess')+'\n')
  for how,expected in [('term',['-TERM']),('force',['-TERM','-KILL'])]:
   mode.write_text(how);alive.touch();signals.unlink(missing_ok=True)
   r=run(script,'y\n');assert r.returncode==0,r.stdout+r.stderr
@@ -46,13 +46,33 @@ with tempfile.TemporaryDirectory(prefix='studyglass-installer-test-') as directo
  r=run(script,'y\n');assert r.returncode==0 and not signals.exists()
  alive.unlink()
  # Legacy backup apps are archived and removed; unrelated apps are untouched.
- legacy=dest/'StudyGlass-backup.legacy'/'Study Glass.app';legacy.parent.mkdir()
+ legacy=dest/'PlanLess-backup.legacy'/'PlanLess.app';legacy.parent.mkdir()
  subprocess.run(['ditto',str(app),str(legacy)],check=True)
  r=run(script,'y\n');assert r.returncode==0,r.stdout+r.stderr
  assert not legacy.exists() and list(legacy.parent.glob('*.zip'))
  # A failed final rename must restore the previous installation.
- mover=p/'mv';mover.write_text('#!/bin/bash\ncase "$1" in *studyglass-stage*) exit 1;; esac\nexec /bin/mv "$@"\n');mover.chmod(0o755)
+ mover=p/'mv';mover.write_text('#!/bin/bash\ncase "$1" in *planless-stage*) exit 1;; esac\nexec /bin/mv "$@"\n');mover.chmod(0o755)
  rollback=p/'rollback.command';rollback.write_text(text.replace('/bin/mv',shlex.quote(str(mover))))
  r=run(rollback,'y\n');assert r.returncode!=0 and app.exists(),r.stdout+r.stderr
  subprocess.run(['/usr/bin/codesign','--verify','--deep','--strict',str(app)],check=True)
- print('PASS: cancellation, hash mismatch, install, scoped quarantine removal, backup, automatic termination, forced termination, cancellation safety, unrelated process protection, stuck-process refusal, rollback')
+ # Rename from the old display name and prove rollback restores its original location.
+ legacy_app=dest/'Study Glass.app'
+ app.rename(legacy_app)
+ mode.write_text('term');alive.touch();signals.unlink(missing_ok=True)
+ (p/'process-path').write_text(str(legacy_app/'Contents/MacOS/PlanLess')+'\n')
+ r=run(script,'y\n');assert r.returncode==0,r.stdout+r.stderr
+ assert app.exists() and not legacy_app.exists() and signals.read_text().splitlines()==['-TERM']
+ # The legacy binary name is accepted only inside a matching app bundle.
+ (p/'process-path').write_text(str(app/'Contents/MacOS/StudyGlass')+'\n')
+ alive.touch();signals.unlink()
+ r=run(script,'y\n');assert r.returncode==0,r.stdout+r.stderr
+ assert signals.read_text().splitlines()==['-TERM']
+ app.rename(legacy_app)
+ r=run(rollback,'y\n');assert r.returncode!=0 and legacy_app.exists() and not app.exists(),r.stdout+r.stderr
+ subprocess.run(['/usr/bin/codesign','--verify','--deep','--strict',str(legacy_app)],check=True)
+ # Never replace unrelated apps at either name or follow a legacy symlink.
+ legacy_app.rename(app)
+ legacy_app.symlink_to(app,target_is_directory=True)
+ r=run(script,'y\n');assert r.returncode!=0 and app.exists() and legacy_app.is_symlink()
+ legacy_app.unlink()
+ print('PASS: cancellation, hash mismatch, install, scoped quarantine removal, backup, automatic termination, forced termination, cancellation safety, unrelated process protection, stuck-process refusal, rollback, legacy-name migration and rollback, legacy-process termination, symlink refusal')

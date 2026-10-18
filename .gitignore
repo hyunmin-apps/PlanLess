@@ -10,3 +10,6 @@ study-state.json
 .env.*
 *.p12
 *.mobileprovision
+
+# Re-creatable archives of design folders; keep editable originals.
+design/*.zip

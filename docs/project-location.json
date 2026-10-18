@@ -1,0 +1,19 @@
+{
+  "source": "/Users/kanghyunmin/Desktop/차량소프트웨어엔진/StudyGlass",
+  "destination": "/Users/kanghyunmin/Desktop/StudyGlass",
+  "entries": 1696,
+  "files": 1407,
+  "bytes": 130749781,
+  "identicalFileHashes": true,
+  "identicalGitStatus": true,
+  "date": "2026-10-18",
+  "scope": "Compared immediately after directory rename, before handoff/path documentation edits.",
+  "postMoveChecks": [
+    "tests/companion-bridge.cjs",
+    "tests/companion-render.cjs",
+    "tests/mascot_assets.py",
+    "tests/verify.py 'build/universal/Study Glass.app'",
+    "git diff --check"
+  ],
+  "postMoveChecksPassed": true
+}

@@ -1,0 +1,73 @@
+{
+  "date": "2026-10-18",
+  "name": "PlanLess",
+  "tagline": "계획은 가볍게, 실천은 바로",
+  "version": "1.1.2",
+  "repository": "https://github.com/hyunmin-apps/PlanLess",
+  "project": "/Users/kanghyunmin/Desktop/PlanLess",
+  "installedApp": "/Users/kanghyunmin/Applications/PlanLess.app",
+  "statePreservedByteForByte": true,
+  "stateSHA256": "e19f3fa3925a9a48c874de5c488c2258a85fdcb37d1bb93709a505969eb18194",
+  "extraGoalCount": 304,
+  "preferencesPreserved": true,
+  "oldAppArchivedAndReplaced": true,
+  "compatibility": {
+    "bundleID": "local.studyglass.desktop",
+    "widgetBundleID": "local.studyglass.desktop.widget",
+    "widgetKinds": [
+      "StudyGlassDay",
+      "StudyGlassWeek"
+    ],
+    "statePath": "~/Library/Application Support/StudyGlass/state.json",
+    "URLSchemes": [
+      "planless",
+      "studyglass"
+    ]
+  },
+  "checks": [
+    "Universal arm64/x86_64 app and extension build",
+    "Nested signatures and packaged resource verification",
+    "Rollover, import, deletion, widget model, companion state and canvas regressions",
+    "Installer cancellation, checksum, scoped quarantine, update, process identity, rollback",
+    "Legacy display-name migration, legacy binary termination, original-path rollback, symlink refusal",
+    "Installed app verification; original user state and preferences unchanged"
+  ],
+  "notVerified": [
+    "New actual WidgetKit goal clicks and completion-loop observation after renaming",
+    "Physical Intel Mac execution",
+    "Apple notarization"
+  ],
+  "gitChangesCommitted": true,
+  "newReleasePublished": false,
+  "installedUIObserved": {
+    "windowTitle": "PlanLess",
+    "menuBarName": "PlanLess",
+    "pageTitle": "PlanLess",
+    "brand": "PlanLess",
+    "existingGoalsAndMascotVisible": true
+  },
+  "widgetRegisteredPath": "/Users/kanghyunmin/Applications/PlanLess.app/Contents/PlugIns/PlanLessWidget.appex",
+  "icon": {
+    "concept": "Approved planner red panda holding one pencil and one checklist planner",
+    "source": "design/planless-icon/source.png",
+    "identityReference": "design/lesser-idle-tracking-v2/planner-approved-reference.png",
+    "prompt": "design/planless-icon/prompt.txt",
+    "generator": "built-in image_gen",
+    "export": "scripts/build-icon.py",
+    "installedIconName": "PlanLessPlannerIcon",
+    "installedICNSMatchesSource": true,
+    "sha256": "071e34698872e72d55c87b8c5c82013df849fb28434402fe3595178ebc34a83b",
+    "standardPNGRepresentations": 10,
+    "previousMintDesignPreserved": "design/planless-icon/mint-check-v1/",
+    "statePreservedAfterIconUpdate": true,
+    "preferencesPreservedAfterIconUpdate": true
+  },
+  "projectCompatibilitySymlink": "/Users/kanghyunmin/Desktop/StudyGlass → /Users/kanghyunmin/Desktop/PlanLess",
+  "gitPublication": {
+    "branch": "main",
+    "remote": "origin",
+    "scope": "PlanLess branding, red panda planner icon, companion integration and editable design sources",
+    "excluded": "Personal state, ignored build/dist, and duplicate design ZIP archives",
+    "releasePublished": false
+  }
+}

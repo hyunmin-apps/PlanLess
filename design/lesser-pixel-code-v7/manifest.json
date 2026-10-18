@@ -1,0 +1,152 @@
+{
+  "planner-idle": {
+    "frames": 6,
+    "size": [
+      128,
+      128
+    ],
+    "durationsMs": [
+      420,
+      300,
+      300,
+      120,
+      300,
+      460
+    ],
+    "layers": [
+      "Back FX",
+      "Tail",
+      "Body and legs",
+      "Head and costume",
+      "Arms and props",
+      "Front FX"
+    ],
+    "source": "draw_lesser.py",
+    "generatedImageInputs": false
+  },
+  "planner-working": {
+    "frames": 6,
+    "size": [
+      128,
+      128
+    ],
+    "durationsMs": [
+      300,
+      180,
+      230,
+      320,
+      260,
+      350
+    ],
+    "layers": [
+      "Back FX",
+      "Tail",
+      "Body and legs",
+      "Head and costume",
+      "Arms and props",
+      "Front FX"
+    ],
+    "source": "draw_lesser.py",
+    "generatedImageInputs": false
+  },
+  "planner-complete": {
+    "frames": 6,
+    "size": [
+      128,
+      128
+    ],
+    "durationsMs": [
+      260,
+      200,
+      150,
+      400,
+      220,
+      500
+    ],
+    "layers": [
+      "Back FX",
+      "Tail",
+      "Body and legs",
+      "Head and costume",
+      "Arms and props",
+      "Front FX"
+    ],
+    "source": "draw_lesser.py",
+    "generatedImageInputs": false
+  },
+  "passion-idle": {
+    "frames": 6,
+    "size": [
+      128,
+      128
+    ],
+    "durationsMs": [
+      420,
+      300,
+      300,
+      120,
+      300,
+      460
+    ],
+    "layers": [
+      "Back FX",
+      "Tail",
+      "Body and legs",
+      "Head and costume",
+      "Arms and props",
+      "Front FX"
+    ],
+    "source": "draw_lesser.py",
+    "generatedImageInputs": false
+  },
+  "passion-working": {
+    "frames": 6,
+    "size": [
+      128,
+      128
+    ],
+    "durationsMs": [
+      300,
+      180,
+      230,
+      320,
+      260,
+      350
+    ],
+    "layers": [
+      "Back FX",
+      "Tail",
+      "Body and legs",
+      "Head and costume",
+      "Arms and props",
+      "Front FX"
+    ],
+    "source": "draw_lesser.py",
+    "generatedImageInputs": false
+  },
+  "passion-complete": {
+    "frames": 6,
+    "size": [
+      128,
+      128
+    ],
+    "durationsMs": [
+      260,
+      200,
+      150,
+      400,
+      220,
+      500
+    ],
+    "layers": [
+      "Back FX",
+      "Tail",
+      "Body and legs",
+      "Head and costume",
+      "Arms and props",
+      "Front FX"
+    ],
+    "source": "draw_lesser.py",
+    "generatedImageInputs": false
+  }
+}

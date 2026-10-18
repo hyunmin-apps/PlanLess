@@ -1,0 +1,12 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const source=fs.readFileSync(__dirname+'/../Resources/index.html','utf8');
+const fn=source.slice(source.indexOf('function setTaskStatus('),source.indexOf('function tasks(date)'));
+const context={state:{extra:{'2026-10-18':[{id:'a"quoted',title:'제목'}]},status:{},deleted:{}},PLAN:[],saves:0,renders:0};
+context.save=()=>context.saves++;context.render=()=>context.renders++;
+vm.createContext(context);vm.runInContext(fn,context);
+assert.strictEqual(context.setTaskStatus('a"quoted',1),true);assert.strictEqual(context.state.status['a"quoted'],1);
+assert.strictEqual(context.setTaskStatus('a"quoted',2),true);assert.strictEqual(context.state.status['a"quoted'],2);
+assert.strictEqual(context.setTaskStatus('missing',2),false);assert.strictEqual(context.setTaskStatus('a"quoted',9),false);
+context.state.deleted['a"quoted']=true;assert.strictEqual(context.setTaskStatus('a"quoted',1),false);
+assert.strictEqual(context.saves,2);assert.strictEqual(context.renders,2);
+console.log('PASS: native companion status bridge preserves real goals, rejects invalid/deleted goals, saves and renders');

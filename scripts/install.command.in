@@ -1,56 +1,63 @@
 #!/bin/bash
-# Study Glass installer. Generated with a pinned release URL and SHA-256.
+# PlanLess installer. Generated with a pinned release URL and SHA-256.
 set -euo pipefail
 VERSION='@VERSION@'
 ARCHIVE='@ARCHIVE@'
 EXPECTED_SHA256='@SHA256@'
-URL="https://github.com/hyunmin-apps/StudyGlass/releases/download/v${VERSION}/${ARCHIVE}"
+URL="https://github.com/hyunmin-apps/PlanLess/releases/download/v${VERSION}/${ARCHIVE}"
 APP_DIR="${HOME}/Applications"
-DEST="${APP_DIR}/Study Glass.app"
+DEST="${APP_DIR}/PlanLess.app"
+LEGACY_DEST="${APP_DIR}/Study Glass.app"
+PREVIOUS_DEST=""
 WORK=''
 STAGE=''
 BACKUP=''
 INSTALLED=0
 LSREGISTER='/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister'
-register_current() {
-  "$LSREGISTER" -f "$DEST" || true
-  /usr/bin/pluginkit -a "$DEST/Contents/PlugIns/StudyGlassWidget.appex" || true
+register_bundle() {
+  "$LSREGISTER" -f "$1" || true
+  for extension in "$1"/Contents/PlugIns/*.appex; do
+    [ ! -d "$extension" ] || /usr/bin/pluginkit -a "$extension" || true
+  done
 }
+register_current() { register_bundle "$DEST"; }
 unregister_app() {
   "$LSREGISTER" -u "$1" || true
-  /usr/bin/pluginkit -r "$1/Contents/PlugIns/StudyGlassWidget.appex" 2>/dev/null || true
+  for extension in "$1"/Contents/PlugIns/*.appex; do
+    [ ! -d "$extension" ] || /usr/bin/pluginkit -r "$extension" 2>/dev/null || true
+  done
 }
-is_study_process() {
+is_planless_process() {
   process_path=$(/bin/ps -ww -p "$1" -o comm= 2>/dev/null) || return 1
-  case "$process_path" in */Contents/MacOS/StudyGlass) ;; *) return 1 ;; esac
-  process_bundle="${process_path%/Contents/MacOS/StudyGlass}"
+  case "$process_path" in */Contents/MacOS/PlanLess|*/Contents/MacOS/StudyGlass) ;; *) return 1 ;; esac
+  process_bundle="${process_path%/Contents/MacOS/*}"
   [ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$process_bundle/Contents/Info.plist" 2>/dev/null)" = local.studyglass.desktop ]
 }
-stop_study_glass() {
-  for app_pid in $(/usr/bin/pgrep -u "$(/usr/bin/id -u)" -x StudyGlass || true); do
-    is_study_process "$app_pid" || continue
-    printf '실행 중인 Study Glass를 종료합니다…\n'
+stop_planless() {
+  for app_pid in $(/usr/bin/pgrep -u "$(/usr/bin/id -u)" -x 'PlanLess|StudyGlass' || true); do
+    is_planless_process "$app_pid" || continue
+    printf '실행 중인 PlanLess를 종료합니다…\n'
     /bin/kill -TERM "$app_pid" 2>/dev/null || true
     for attempt in 1 2 3; do
-      is_study_process "$app_pid" || break
+      is_planless_process "$app_pid" || break
       /bin/sleep 1
     done
-    if is_study_process "$app_pid"; then
-      printf '응답하지 않아 Study Glass를 강제 종료합니다…\n'
+    if is_planless_process "$app_pid"; then
+      printf '응답하지 않아 PlanLess를 강제 종료합니다…\n'
       /bin/kill -KILL "$app_pid" 2>/dev/null || true
       /bin/sleep 1
     fi
-    if is_study_process "$app_pid"; then
-      printf 'Study Glass를 종료하지 못해 업데이트를 중단했습니다.\n' >&2
+    if is_planless_process "$app_pid"; then
+      printf 'PlanLess를 종료하지 못해 업데이트를 중단했습니다.\n' >&2
       exit 1
     fi
   done
 }
 cleanup() {
   result=$?
-  if [ "$result" -ne 0 ] && [ "$INSTALLED" -eq 0 ] && [ -n "$BACKUP" ] && [ ! -e "$DEST" ]; then
-    /bin/mv "$WORK/previous.app" "$DEST" || true
-    register_current
+  if [ "$result" -ne 0 ] && [ "$INSTALLED" -eq 0 ] && [ -n "$BACKUP" ] && [ -n "$PREVIOUS_DEST" ] && [ ! -e "$PREVIOUS_DEST" ] && [ -d "$WORK/previous.app" ]; then
+    /bin/mv "$WORK/previous.app" "$PREVIOUS_DEST" || true
+    register_bundle "$PREVIOUS_DEST"
   fi
   [ -z "$WORK" ] || /bin/rm -rf "$WORK"
   [ -z "$STAGE" ] || /bin/rm -rf "$STAGE"
@@ -58,24 +65,24 @@ cleanup() {
 }
 trap cleanup EXIT
 trap 'exit 130' INT TERM
-printf '\nStudy Glass %s 설치\n\n' "$VERSION"
+printf '\nPlanLess %s 설치\n\n' "$VERSION"
 printf 'Apple 공증 전 시험판입니다.\n공식 배포 ZIP의 SHA-256 및 앱 서명 구조를 검사한 뒤 설치합니다.\n'
 printf '설치 위치: %s\n' "$DEST"
-printf 'Study Glass 앱에만 다운로드 격리 속성을 제거합니다.\n이 조치는 공증을 대신하지 않으며, Mac 전체 보안 설정은 바꾸지 않습니다.\n'
-printf '이전 앱은 ZIP으로 백업하고 교체합니다. 직접 추가한 공부 기록은 유지합니다. 실행 중인 Study Glass는 자동 종료하며, 응답하지 않으면 강제 종료합니다. 저장하지 않은 편집 내용은 사라질 수 있습니다.\n\n'
+printf 'PlanLess 앱에만 다운로드 격리 속성을 제거합니다.\n이 조치는 공증을 대신하지 않으며, Mac 전체 보안 설정은 바꾸지 않습니다.\n'
+printf '이전 앱은 ZIP으로 백업하고 교체합니다. 직접 추가한 공부 기록은 유지합니다. 실행 중인 PlanLess는 자동 종료하며, 응답하지 않으면 강제 종료합니다. 저장하지 않은 편집 내용은 사라질 수 있습니다.\n\n'
 printf '이 변경에 동의하고 설치할까요? [y/N] '
 IFS= read -r answer || exit 0
 case "$answer" in y|Y) ;; *) printf '취소했습니다.\n'; exit 0 ;; esac
 [ "$(/usr/bin/uname -s)" = Darwin ] || { printf 'macOS 전용입니다.\n' >&2; exit 1; }
 os_version=$(/usr/bin/sw_vers -productVersion)
 [ "${os_version%%.*}" -ge 14 ] || { printf 'macOS 14 이상이 필요합니다.\n' >&2; exit 1; }
-WORK=$(/usr/bin/mktemp -d "${TMPDIR:-/tmp}/studyglass-download.XXXXXX")
+WORK=$(/usr/bin/mktemp -d "${TMPDIR:-/tmp}/planless-download.XXXXXX")
 printf '\n공식 배포 파일 다운로드…\n'
 /usr/bin/curl --fail --location --proto '=https' --tlsv1.2 --retry 2 --output "$WORK/app.zip" "$URL"
 actual=$(/usr/bin/shasum -a 256 "$WORK/app.zip")
 [ "${actual%% *}" = "$EXPECTED_SHA256" ] || { printf '해시 불일치: 설치하지 않았습니다.\n' >&2; exit 1; }
 /usr/bin/ditto -x -k "$WORK/app.zip" "$WORK/unpacked"
-SOURCE="$WORK/unpacked/Study Glass.app"
+SOURCE="$WORK/unpacked/PlanLess.app"
 [ -d "$SOURCE" ] && [ ! -L "$SOURCE" ] || { printf '앱이 누락되었습니다.\n' >&2; exit 1; }
 [ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$SOURCE/Contents/Info.plist")" = local.studyglass.desktop ]
 [ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$SOURCE/Contents/Info.plist")" = "$VERSION" ]
@@ -85,26 +92,34 @@ SOURCE="$WORK/unpacked/Study Glass.app"
 if [ -e "$DEST" ]; then
   [ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$DEST/Contents/Info.plist")" = local.studyglass.desktop ] || { printf '같은 이름의 다른 앱이 있습니다.\n' >&2; exit 1; }
 fi
-STAGE=$(/usr/bin/mktemp -d "$APP_DIR/.studyglass-stage.XXXXXX")
-/usr/bin/ditto "$SOURCE" "$STAGE/Study Glass.app"
-# Only this newly verified app bundle; never change global Gatekeeper settings.
-/usr/bin/xattr -r -d com.apple.quarantine "$STAGE/Study Glass.app"
-/usr/bin/codesign --verify --deep --strict "$STAGE/Study Glass.app"
-stop_study_glass
-if [ -e "$DEST" ]; then
-  BACKUP=$(/usr/bin/mktemp -d "$APP_DIR/StudyGlass-backup.XXXXXX")
-  /usr/bin/ditto -c -k --sequesterRsrc --keepParent "$DEST" "$BACKUP/StudyGlass-preserved.zip"
-  /usr/bin/unzip -tq "$BACKUP/StudyGlass-preserved.zip" >/dev/null
-  unregister_app "$DEST"
-  /bin/mv "$DEST" "$WORK/previous.app"
+# Refuse ambiguous installations rather than leave two apps with one identity.
+if [ -e "$LEGACY_DEST" ] || [ -L "$LEGACY_DEST" ]; then
+  [ ! -L "$LEGACY_DEST" ] && [ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$LEGACY_DEST/Contents/Info.plist" 2>/dev/null)" = local.studyglass.desktop ] || { printf '이전 앱 경로를 확인하세요.\n' >&2; exit 1; }
+  [ ! -e "$DEST" ] || { printf '이전 앱과 PlanLess가 함께 있습니다. 사용할 앱을 먼저 정리하세요.\n' >&2; exit 1; }
+  PREVIOUS_DEST="$LEGACY_DEST"
+elif [ -e "$DEST" ]; then
+  PREVIOUS_DEST="$DEST"
 fi
-/bin/mv "$STAGE/Study Glass.app" "$DEST"
+STAGE=$(/usr/bin/mktemp -d "$APP_DIR/.planless-stage.XXXXXX")
+/usr/bin/ditto "$SOURCE" "$STAGE/PlanLess.app"
+# Only this newly verified app bundle; never change global Gatekeeper settings.
+/usr/bin/xattr -r -d com.apple.quarantine "$STAGE/PlanLess.app"
+/usr/bin/codesign --verify --deep --strict "$STAGE/PlanLess.app"
+stop_planless
+if [ -n "$PREVIOUS_DEST" ]; then
+  BACKUP=$(/usr/bin/mktemp -d "$APP_DIR/PlanLess-backup.XXXXXX")
+  /usr/bin/ditto -c -k --sequesterRsrc --keepParent "$PREVIOUS_DEST" "$BACKUP/PlanLess-preserved.zip"
+  /usr/bin/unzip -tq "$BACKUP/PlanLess-preserved.zip" >/dev/null
+  unregister_app "$PREVIOUS_DEST"
+  /bin/mv "$PREVIOUS_DEST" "$WORK/previous.app"
+fi
+/bin/mv "$STAGE/PlanLess.app" "$DEST"
 INSTALLED=1
 # Retire only legacy backups created by this installer, after verified archiving.
-for old_app in "$APP_DIR"/StudyGlass-backup.*/"Study Glass.app"; do
+for old_app in "$APP_DIR"/PlanLess-backup.*/"PlanLess.app" "$APP_DIR"/StudyGlass-backup.*/"Study Glass.app"; do
   [ -d "$old_app" ] && [ ! -L "$old_app" ] || continue
   [ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$old_app/Contents/Info.plist" 2>/dev/null)" = local.studyglass.desktop ] || continue
-  old_archive="${old_app%/*}/StudyGlass-preserved-$(/bin/date +%s).zip"
+  old_archive="${old_app%/*}/PlanLess-preserved-$(/bin/date +%s).zip"
   if /usr/bin/ditto -c -k --sequesterRsrc --keepParent "$old_app" "$old_archive" && /usr/bin/unzip -tq "$old_archive" >/dev/null; then
     unregister_app "$old_app"
     /bin/rm -rf "$old_app"
@@ -115,7 +130,7 @@ done
 register_current
 printf '\n설치 완료: %s\n' "$DEST"
 [ -z "$BACKUP" ] || printf '이전 앱 백업: %s\n' "$BACKUP"
-printf '바탕화면 우클릭 → 위젯 편집 → Study Glass에서 위젯을 추가하세요.\n'
+printf '바탕화면 우클릭 → 위젯 편집 → PlanLess에서 위젯을 추가하세요.\n'
 if ! /usr/bin/open "$DEST"; then
   printf '설치는 완료했지만 실행에 실패했습니다. Finder에서 앱을 확인하세요.\n' >&2
 fi

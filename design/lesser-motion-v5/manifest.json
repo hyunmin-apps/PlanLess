@@ -1,0 +1,79 @@
+{
+  "planner-idle": {
+    "size": [
+      128,
+      128
+    ],
+    "frames": 24,
+    "fps": 12,
+    "master": "planner-master.png",
+    "layers": 3,
+    "uniqueFrames": 3,
+    "effectAbsentAtEnd": null
+  },
+  "planner-working": {
+    "size": [
+      128,
+      128
+    ],
+    "frames": 24,
+    "fps": 12,
+    "master": "planner-master.png",
+    "layers": 3,
+    "uniqueFrames": 4,
+    "effectAbsentAtEnd": null
+  },
+  "planner-complete": {
+    "size": [
+      128,
+      128
+    ],
+    "frames": 24,
+    "fps": 12,
+    "master": "planner-master.png",
+    "layers": 3,
+    "uniqueFrames": 21,
+    "effectAbsentAtEnd": true
+  },
+  "passion-idle": {
+    "size": [
+      128,
+      128
+    ],
+    "frames": 24,
+    "fps": 12,
+    "master": "passion-master.png",
+    "layers": 3,
+    "uniqueFrames": 3,
+    "effectAbsentAtEnd": null
+  },
+  "passion-working": {
+    "size": [
+      128,
+      128
+    ],
+    "frames": 24,
+    "fps": 12,
+    "master": "passion-master.png",
+    "layers": 3,
+    "uniqueFrames": 24,
+    "effectAbsentAtEnd": null
+  },
+  "passion-complete": {
+    "size": [
+      128,
+      128
+    ],
+    "frames": 24,
+    "fps": 12,
+    "master": "passion-master.png",
+    "layers": 3,
+    "uniqueFrames": 21,
+    "effectAbsentAtEnd": true
+  },
+  "validation": {
+    "sharedPaletteColors": 30,
+    "noGeneratedStateRedesigns": true,
+    "completedEffectsIdenticalAcrossCharacters": true
+  }
+}

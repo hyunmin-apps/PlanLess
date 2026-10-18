@@ -1,0 +1,86 @@
+{
+  "planner-working": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 128,
+        "height": 128,
+        "nb_read_frames": "6"
+      }
+    ],
+    "format": {
+      "duration": "1.640000"
+    }
+  },
+  "passion-complete": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 128,
+        "height": 128,
+        "nb_read_frames": "6"
+      }
+    ],
+    "format": {
+      "duration": "1.730000"
+    }
+  },
+  "planner-idle": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 128,
+        "height": 128,
+        "nb_read_frames": "6"
+      }
+    ],
+    "format": {
+      "duration": "1.900000"
+    }
+  },
+  "planner-complete": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 128,
+        "height": 128,
+        "nb_read_frames": "6"
+      }
+    ],
+    "format": {
+      "duration": "1.730000"
+    }
+  },
+  "passion-working": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 128,
+        "height": 128,
+        "nb_read_frames": "6"
+      }
+    ],
+    "format": {
+      "duration": "1.640000"
+    }
+  },
+  "passion-idle": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "width": 128,
+        "height": 128,
+        "nb_read_frames": "6"
+      }
+    ],
+    "format": {
+      "duration": "1.900000"
+    }
+  }
+}

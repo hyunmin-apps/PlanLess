@@ -1,0 +1,8 @@
+{
+  "tool": "built-in image_gen",
+  "selectedOutput": "exec-c807a519-113d-4111-bc44-5f4af42fd254.png",
+  "sourceSHA256": "82bdb412cb8416209378da7fe38cea95b6570110898144030a15271b165b1c63",
+  "prompt": "prompt.txt",
+  "concept": "One evergreen checkmark on a pale mint tile: less planning, immediate action",
+  "export": "scripts/build-icon.py; standard app icon sizes generated with macOS sips and iconutil"
+}

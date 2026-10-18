@@ -1,0 +1,68 @@
+{
+  "planner-working": {
+    "size": [
+      64,
+      64
+    ],
+    "colors": 48,
+    "frames": 24,
+    "uniqueFrames": 24,
+    "fps": 12,
+    "gifDuration": "2.160000"
+  },
+  "planner-complete": {
+    "size": [
+      64,
+      64
+    ],
+    "colors": 48,
+    "frames": 24,
+    "uniqueFrames": 24,
+    "fps": 12,
+    "gifDuration": "2.160000"
+  },
+  "passion-working": {
+    "size": [
+      64,
+      64
+    ],
+    "colors": 48,
+    "frames": 24,
+    "uniqueFrames": 24,
+    "fps": 12,
+    "gifDuration": "2.160000"
+  },
+  "passion-complete": {
+    "size": [
+      64,
+      64
+    ],
+    "colors": 47,
+    "frames": 24,
+    "uniqueFrames": 24,
+    "fps": 12,
+    "gifDuration": "2.160000"
+  },
+  "planner-idle": {
+    "size": [
+      64,
+      64
+    ],
+    "colors": 45,
+    "frames": 4,
+    "uniqueFrames": 4,
+    "fps": 2,
+    "gifDuration": "2.000000"
+  },
+  "passion-idle": {
+    "size": [
+      64,
+      64
+    ],
+    "colors": 47,
+    "frames": 4,
+    "uniqueFrames": 4,
+    "fps": 2,
+    "gifDuration": "2.000000"
+  }
+}

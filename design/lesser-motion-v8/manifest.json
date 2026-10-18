@@ -1,0 +1,258 @@
+{
+  "planner-working": {
+    "size": [
+      80,
+      80
+    ],
+    "frames": 6,
+    "durationMs": [
+      280,
+      160,
+      300,
+      240,
+      280,
+      240
+    ],
+    "totalMs": 1500,
+    "selectedV6Frames": [
+      1,
+      3,
+      10,
+      16,
+      18,
+      22
+    ],
+    "beats": [
+      "준비",
+      "연필 들기",
+      "쓰기·체크",
+      "만족한 윙크",
+      "연필 들며 강조",
+      "복귀"
+    ],
+    "paletteMax": 32,
+    "alphaValues": [
+      0,
+      255
+    ],
+    "effectPixels": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "source": "source-atlas.png",
+    "method": "built-in image_gen edit of selected v6 poses + deterministic raster packaging"
+  },
+  "planner-complete": {
+    "size": [
+      80,
+      80
+    ],
+    "frames": 6,
+    "durationMs": [
+      180,
+      160,
+      120,
+      280,
+      160,
+      600
+    ],
+    "totalMs": 1500,
+    "selectedV6Frames": [
+      1,
+      9,
+      11,
+      14,
+      18,
+      24
+    ],
+    "beats": [
+      "마지막 쓰기",
+      "도약 준비",
+      "도약",
+      "기쁜 공중 자세",
+      "착지",
+      "안정"
+    ],
+    "paletteMax": 32,
+    "alphaValues": [
+      0,
+      255
+    ],
+    "effectPixels": [
+      0,
+      28,
+      70,
+      67,
+      28,
+      0
+    ],
+    "source": "source-atlas.png",
+    "method": "built-in image_gen edit of selected v6 poses + deterministic raster packaging"
+  },
+  "passion-working": {
+    "size": [
+      80,
+      80
+    ],
+    "frames": 6,
+    "durationMs": [
+      260,
+      160,
+      140,
+      300,
+      200,
+      260
+    ],
+    "totalMs": 1320,
+    "selectedV6Frames": [
+      1,
+      8,
+      10,
+      14,
+      17,
+      23
+    ],
+    "beats": [
+      "준비",
+      "주먹 당기기",
+      "주먹 올리기",
+      "응원 강조",
+      "끄덕이며 내리기",
+      "복귀"
+    ],
+    "paletteMax": 32,
+    "alphaValues": [
+      0,
+      255
+    ],
+    "effectPixels": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "source": "source-atlas.png",
+    "method": "built-in image_gen edit of selected v6 poses + deterministic raster packaging"
+  },
+  "passion-complete": {
+    "size": [
+      80,
+      80
+    ],
+    "frames": 6,
+    "durationMs": [
+      180,
+      160,
+      120,
+      280,
+      160,
+      600
+    ],
+    "totalMs": 1500,
+    "selectedV6Frames": [
+      1,
+      8,
+      11,
+      14,
+      18,
+      24
+    ],
+    "beats": [
+      "기쁜 준비",
+      "웅크리기",
+      "도약",
+      "폭죽·공중 자세",
+      "착지",
+      "안정"
+    ],
+    "paletteMax": 32,
+    "alphaValues": [
+      0,
+      255
+    ],
+    "effectPixels": [
+      0,
+      0,
+      134,
+      178,
+      112,
+      0
+    ],
+    "source": "source-atlas.png",
+    "method": "built-in image_gen edit of selected v6 poses + deterministic raster packaging"
+  },
+  "planner-idle": {
+    "size": [
+      128,
+      128
+    ],
+    "frames": 24,
+    "durationMs": [
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333
+    ],
+    "unchangedFromV6": true
+  },
+  "passion-idle": {
+    "size": [
+      128,
+      128
+    ],
+    "frames": 24,
+    "durationMs": [
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333,
+      83.33333333333333
+    ],
+    "unchangedFromV6": true
+  }
+}

@@ -2,7 +2,7 @@
 """Run the production widget projection with old and edited state fixtures."""
 import pathlib,subprocess,tempfile,json
 root=pathlib.Path(__file__).resolve().parents[1]
-s=(root/'Widget/StudyWidget.swift').read_text()
+s=(root/'Widget/PlanLessWidget.swift').read_text()
 s=s[s.index('struct Goal:'):s.index('func dayKey(')]
 s=s.replace('today:String = dayKey(Date())', 'today:String = "2026-10-12"')
 start=s.index('func widgetState()');end=s.index('func plans(',start)
@@ -15,7 +15,7 @@ s=s.replace('Bundle.main.url(forResource:"plan",withExtension:"json")','Optional
 s='import Foundation\n'+s+'''\nlet output=plans().map {day in ["id":day.id,"goals":day.goals.map {g in ["id":g.id,"subject":g.subject,"title":g.title,"status":g.status] as [String:Any]}] as [String:Any]}
 print(String(data:try! JSONSerialization.data(withJSONObject:output),encoding:.utf8)!)
 '''
-with tempfile.TemporaryDirectory(prefix='studyglass-widget-test-') as d:
+with tempfile.TemporaryDirectory(prefix='planless-widget-test-') as d:
  p=pathlib.Path(d);(p/'main.swift').write_text(s)
  subprocess.run(['xcrun','swiftc',str(p/'main.swift'),'-o',str(p/'test')],check=True)
  (p/'plan.json').write_text(json.dumps([['2026-10-12','', [['과목','목표',''] for _ in range(4)]]]))

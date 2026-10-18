@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>StudyGlass · 레서 6프레임</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f2eee5;color:#32282d;font:15px/1.6 -apple-system,BlinkMacSystemFont,sans-serif}main{max-width:1000px;margin:auto;padding:36px 24px}header{display:flex;justify-content:space-between;align-items:end;gap:20px}h1{font-size:30px;letter-spacing:-1px;margin:4px 0}h2{font-size:19px;margin:0}p{margin:6px 0}.eyebrow{font-size:11px;letter-spacing:2px;color:#7d6a58}.muted{color:#796d71;font-size:13px}.tabs,.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:24px 0 16px}button,select{font:inherit;color:inherit;border:1px solid #cfc5b6;border-radius:10px;background:#fffdf7;padding:9px 15px;cursor:pointer}button:hover{background:#eae3d5}button[aria-pressed=true]{background:#234b49;border-color:#234b49;color:#fff}button:focus-visible,input:focus-visible{outline:3px solid #dd8b40;outline-offset:3px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{background:#fffdf7;border:1px solid #ddd4c5;border-radius:20px;padding:22px}.stage{height:300px;display:grid;place-items:center;border-radius:14px;background-color:#e5dfd3;background-image:linear-gradient(45deg,#ded7ca 25%,transparent 25%),linear-gradient(-45deg,#ded7ca 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#ded7ca 75%),linear-gradient(-45deg,transparent 75%,#ded7ca 75%);background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0}.stage.dark{background:#24212a}.hero{width:240px;height:240px;object-fit:contain;image-rendering:pixelated}.meta{display:flex;justify-content:space-between;font-size:12px;color:#796d71;margin-top:12px}.strip{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin:16px 0 0}.strip button{padding:3px;border-radius:6px;min-width:0;background:transparent}.strip img{width:100%;display:block;image-rendering:pixelated}.strip button.current{border:2px solid #2d7470;background:#e1ece5}.strip span{font-size:10px}.scrub{flex:1;min-width:150px;accent-color:#2d7470}.links{display:flex;gap:20px;margin:22px 0}a{color:#2b6c68}footer{margin-top:26px;padding-top:18px;border-top:1px solid #d8cebd;font-size:12px;color:#796d71}label{font-size:13px}#status{font-size:12px;color:#796d71}
+@media(max-width:660px){main{padding:24px 14px}.grid{grid-template-columns:1fr}header{display:block}h1{font-size:26px}.stage{height:280px}.toolbar{gap:8px}}
+</style>
+<main>
+<header><div><div class="eyebrow">STUDYGLASS · LESSER / V8</div><h1>작은 도트, 선명한 표정.</h1><p class="muted">기존 자세를 살린 6프레임 · 눈빛과 윤곽선 강조</p></div><div class="muted" id="spec">80 × 80 px · 공통 32색</div></header>
+<nav class="tabs" aria-label="상태 선택"><button data-state="working" aria-pressed="true">진행 중</button><button data-state="complete" aria-pressed="false">완료</button><button data-state="idle" aria-pressed="false">기존 대기</button></nav>
+<div class="grid" id="cards"></div>
+<div class="toolbar"><button id="play">일시 정지</button><button id="replay">처음부터</button><label for="scrub">프레임</label><input class="scrub" id="scrub" type="range" min="0" max="5" value="0"><span id="counter">1 / 6</span><label><input id="loop" type="checkbox"> 완료 반복</label><button id="background">어두운 배경</button></div>
+<p id="status" aria-live="polite">진행 중은 반복 재생합니다.</p>
+<div class="links"><a href="all-frames.png">24개 핵심 자세 보기</a><a href="resolution-comparison.png">64 · 80 · 96px 비교</a><a href="../lesser-motion-v6/preview.html">이전 v6 보기</a></div>
+<footer>진행 중·완료: 각 6프레임. 대기: v6의 128px·24프레임 파일 유지.<br>계획 레서: 별 눈빛 / 초록 V. 열정 레서: 응원 불꽃 / 불꽃 없는 폭죽 점프.<br>완료는 한 번 재생한 뒤 마지막 자세에 머뭅니다. GIF 파일은 비교용 반복 재생입니다. 앱 적용 전 디자인 시안.</footer>
+</main>
+<script>/* EMBED_DATA */</script>
+<script>
+const LABELS={planner:'계획단장 레서',passion:'열정 레서'};
+const BEATS={
+'planner-working':['준비','연필 들기','쓰기·체크','만족한 윙크','연필 들며 강조','복귀'],
+'planner-complete':['마지막 쓰기','도약 준비','도약','기쁜 공중 자세','착지','안정'],
+'passion-working':['준비','주먹 당기기','주먹 올리기','응원 강조','끄덕이며 내리기','복귀'],
+'passion-complete':['기쁜 준비','웅크리기','도약','폭죽·공중 자세','착지','안정']};
+const $=id=>document.getElementById(id);
+let state='working',playing=true,elapsed=0,last=null,dark=false;
+function indexAt(times,time,loop){const total=times.reduce((a,b)=>a+b,0);let t=loop?time%total:Math.min(time,total-0.001);for(let i=0;i<times.length;i++){if(t<times[i])return i;t-=times[i]}return times.length-1}
+function shouldLoop(){return state!=='complete'||$('loop').checked}
+function maxDuration(){return Math.max(...Object.keys(LABELS).map(c=>ASSETS[c+'-'+state].times.reduce((a,b)=>a+b,0)))}
+function build(){
+ $('cards').replaceChildren();
+ for(const c of Object.keys(LABELS)){
+  const key=c+'-'+state,a=ASSETS[key],card=document.createElement('section');card.className='card';
+  card.innerHTML=`<h2>${LABELS[c]}</h2><p class="muted">${state==='idle'?'유지된 기존 대기':c==='planner'?(state==='working'?'계획표 쓰기 · 별 눈빛':'기쁜 점프 · V 팝업'):(state==='working'?'주먹 응원 · 불꽃':'기쁜 점프 · 폭죽')}</p><div class="stage${dark?' dark':''}"><img class="hero" id="hero-${c}" alt="${LABELS[c]} 애니메이션"></div><div class="meta"><span id="beat-${c}"></span><span id="time-${c}"></span></div><div class="strip" id="strip-${c}"></div>`;
+  $('cards').append(card);
+  if(state!=='idle')a.frames.forEach((src,i)=>{const b=document.createElement('button');b.title=`${BEATS[key][i]}, ${a.times[i]}밀리초`;b.setAttribute('aria-label',`${i+1}번 자세: ${BEATS[key][i]}`);b.innerHTML=`<img src="${src}" alt=""><span>${i+1}</span>`;b.onclick=()=>seek(i);$('strip-'+c).append(b)});
+ }
+ $('scrub').max=ASSETS['planner-'+state].frames.length-1;
+ $('spec').textContent=state==='idle'?'기존 128 × 128 px · 24프레임':'80 × 80 px · 공통 32색';
+ document.querySelectorAll('[data-state]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.state===state)));
+ render();
+}
+function render(){
+ for(const c of Object.keys(LABELS)){
+  const key=c+'-'+state,a=ASSETS[key],i=indexAt(a.times,elapsed,shouldLoop());
+  $('hero-'+c).src=a.frames[i];$('beat-'+c).textContent=state==='idle'?'기존 대기':BEATS[key][i];$('time-'+c).textContent=`${i+1} / ${a.frames.length} · ${Math.round(a.times[i])} ms`;
+  [...$('strip-'+c).children].forEach((b,j)=>{b.classList.toggle('current',i===j);b.setAttribute('aria-pressed',String(i===j))});
+  if(c==='planner'){$('scrub').value=i;$('counter').textContent=`${i+1} / ${a.frames.length}`}
+ }
+ $('play').textContent=playing?'일시 정지':'재생';
+ $('status').textContent=state==='complete'?(shouldLoop()?'완료를 반복 재생합니다.':'완료는 한 번 재생하고 마지막 자세에 머뭅니다.'):state==='idle'?'v6 대기 파일을 그대로 재생합니다.':'진행 중은 반복 재생합니다.';
+}
+function seek(i){elapsed=ASSETS['planner-'+state].times.slice(0,i).reduce((a,b)=>a+b,0)+0.01;playing=false;last=null;render()}
+function restart(){elapsed=0;playing=true;last=null;render()}
+document.querySelectorAll('[data-state]').forEach(b=>b.onclick=()=>{state=b.dataset.state;restart();build()});
+$('play').onclick=()=>{if(!playing&&state==='complete'&&elapsed>=maxDuration())elapsed=0;playing=!playing;last=null;render()};
+$('replay').onclick=restart;$('scrub').oninput=e=>seek(Number(e.target.value));$('loop').onchange=restart;
+$('background').onclick=()=>{dark=!dark;document.querySelectorAll('.stage').forEach(s=>s.classList.toggle('dark',dark));$('background').textContent=dark?'밝은 배경':'어두운 배경'};
+function tick(now){if(last!==null&&playing){elapsed+=Math.min(now-last,100);if(state==='complete'&&!shouldLoop()&&elapsed>=maxDuration()){elapsed=maxDuration();playing=false}render()}last=now;requestAnimationFrame(tick)}
+document.addEventListener('visibilitychange',()=>last=null);
+build();requestAnimationFrame(tick);
+</script>
+</html>

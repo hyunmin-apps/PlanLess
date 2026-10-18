@@ -1,0 +1,10 @@
+{
+  "tool": "built-in image_gen",
+  "selectedOutput": "exec-72d278b6-9e72-4ff0-a1fc-162ca16e6918.png",
+  "sourceSHA256": "7cdd344d66a76fc40d4df1328596e571e05ffa0a675311ba4ead42dec436791a",
+  "prompt": "prompt.txt",
+  "identityReference": "../lesser-idle-tracking-v2/planner-approved-reference.png",
+  "concept": "Approved planner red panda with glasses, teal scarf, pencil and checklist planner",
+  "previousDesign": "mint-check-v1/",
+  "export": "scripts/build-icon.py; macOS sips and iconutil"
+}
